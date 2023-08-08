@@ -2,10 +2,10 @@
 
 namespace App\Controllers;
 
-use App\Models\TagModel;
+use App\Models\TagsModel;
 use CodeIgniter\API\ResponseTrait as APIResponseTrait;
 
-class TagController extends BaseController {
+class TagsController extends BaseController {
   use APIResponseTrait;
 
   private $tagModel;

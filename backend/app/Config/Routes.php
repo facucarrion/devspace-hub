@@ -33,11 +33,11 @@ $routes->get('/', 'Home::index');
 
 $routes->group('api', function($routes) {
     $routes->group('tags', function($routes) {
-        $routes->get('/', 'TagController::getAll');
-        $routes->get('(:num)', 'TagController::getById/$1');
-        $routes->post('/', 'TagController::create');
-        $routes->delete('(:num)', 'TagController::delete/$1');
-        $routes->put('(:num)', 'TagController::edit/$1');
+        $routes->get('/', 'TagsController::getAll');
+        $routes->get('(:num)', 'TagsController::getById/$1');
+        $routes->post('/', 'TagsController::create');
+        $routes->delete('(:num)', 'TagsController::delete/$1');
+        $routes->put('(:num)', 'TagsController::edit/$1');
     });
 
     $routes->group('follows', function($routes) {
