@@ -46,6 +46,13 @@ $routes->group('api', function($routes) {
         $routes->post('/', 'FollowsController::create');
         $routes->delete('(:num)', 'FollowsController::delete/$1');
     });
+
+    $routes->group('tag_projects', function($routes) {
+        $routes->get('/', 'TagsProjectController::getAll');
+        $routes->get('(:num)', 'TagsProjectController::getById/$1');
+        $routes->post('/', 'TagsProjectController::create');
+        $routes->delete('(:num)', 'TagsProjectController::delete/$1');
+    });
 });
 
 /*
