@@ -8,19 +8,19 @@ use CodeIgniter\API\ResponseTrait as APIResponseTrait;
 class TagsController extends BaseController {
   use APIResponseTrait;
 
-  private $tagModel;
+  private $tagsModel;
 
   public function __construct() {
-    $this->tagModel = new TagModel();
+    $this->tagsModel = new TagsModel();
   }
 
   public function getAll() {
-    $tags = $this->tagModel->findAll();
+    $tags = $this->tagsModel->findAll();
     return $this->respond($tags, 200);
   }
 
   public function getById($id) {
-    $tag = $this->tagModel->find($id);
+    $tag = $this->tagsModel->find($id);
 
     if ($tag) {
       return $this->respond($tag, 200);
@@ -32,36 +32,36 @@ class TagsController extends BaseController {
   public function create() {
     $tag = $this->request->getJSON();
 
-    if ($this->tagModel->insert([
+    if ($this->tagsModel->insert([
       'tag' => $tag->tag
     ])) {
-      $tag->id_tag = $this->tagModel->getInsertID();
+      $tag->id_tag = $this->tagsModel->getInsertID();
 
       return $this->respondCreated($tag, 'Tag created!');
     } else {
-      return $this->fail($this->tagModel->errors(), 400);
+      return $this->fail($this->tagsModel->errors(), 400);
     }
   }
 
   public function edit($id) {
     $tag = $this->request->getJSON();
 
-    if ($this->tagModel->update($id, [
+    if ($this->tagsModel->update($id, [
       'tag' => $tag->tag
     ])) {
       $tag->id_tag = $id;
 
       return $this->respondUpdated($tag, 'Tag updated!');
     } else {
-      return $this->fail($this->tagModel->errors(), 400);
+      return $this->fail($this->tagsModel->errors(), 400);
     }
   }
 
   public function delete($id) {
-    if ($this->tagModel->delete($id)) {
+    if ($this->tagsModel->delete($id)) {
       return $this->respondDeleted(['id_tag' => $id], 'Tag deleted!');
     } else {
-      return $this->fail($this->tagModel->errors(), 400);
+      return $this->fail($this->tagsModel->errors(), 400);
     }
   }
 }
