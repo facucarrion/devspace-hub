@@ -1,0 +1,29 @@
+GET http://localhost:8080/api/users
+
+###
+
+GET http://localhost:8080/api/users/1
+
+###
+
+POST http://localhost:8080/api/users
+  
+{
+    "username": "Benjamin",
+    "display_name": null,
+    "email": "benja@gmail.com",
+    "password": "askldjalskdjalksjdlksjad"
+}
+
+###
+
+PUT http://localhost:8080/api/users/1
+
+{
+    "name": "",
+    "email": ""
+}
+
+###
+
+DELETE http://localhost:8080/api/users/3

@@ -53,6 +53,14 @@ $routes->group('api', function($routes) {
         $routes->post('/', 'TagsProjectController::create');
         $routes->delete('(:num)', 'TagsProjectController::delete/$1');
     });
+
+    $routes->group('users', function($routes) {
+        $routes->get('/', 'UsersController::getAll');
+        $routes->get('(:num)', 'UsersController::getById/$1');
+        $routes->post('/', 'UsersController::create');
+        $routes->delete('(:num)', 'UsersController::delete/$1');
+        $routes->put('(:num)', 'UsersController::edit/$1');
+    });
 });
 
 /*
