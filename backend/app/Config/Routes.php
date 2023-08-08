@@ -39,6 +39,13 @@ $routes->group('api', function($routes) {
         $routes->delete('(:num)', 'TagController::delete/$1');
         $routes->put('(:num)', 'TagController::edit/$1');
     });
+
+    $routes->group('follows', function($routes) {
+        $routes->get('/', 'FollowsController::getAll');
+        $routes->get('(:num)', 'FollowsController::getById/$1');
+        $routes->post('/', 'FollowsController::create');
+        $routes->delete('(:num)', 'FollowsController::delete/$1');
+    });
 });
 
 /*
