@@ -61,6 +61,14 @@ $routes->group('api', function($routes) {
         $routes->delete('(:num)', 'UsersController::delete/$1');
         $routes->put('(:num)', 'UsersController::edit/$1');
     });
+
+    $routes->group('projects', function($routes) {
+        $routes->get('/', 'ProjectsController::getAll');
+        $routes->get('(:num)', 'ProjectsController::getById/$1');
+        $routes->post('/', 'ProjectsController::create');
+        $routes->delete('(:num)', 'ProjectsController::delete/$1');
+        $routes->patch('(:num)', 'ProjectsController::edit/$1');
+    });
 });
 
 /*
