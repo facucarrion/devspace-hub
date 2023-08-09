@@ -1,0 +1,26 @@
+GET http://localhost:8080/api/projects
+
+###
+GET http://localhost:8080/api/projects/3
+
+###
+
+POST http://localhost:8080/api/projects
+
+{
+    "title": "Project 1",
+    "description": "Project 1 description",
+    "id_user_creator": 1
+}
+
+###
+
+PATCH http://localhost:8080/api/projects/3
+
+{
+    "description": "Project 16 description updated"
+}
+
+###
+
+DELETE http://localhost:8080/api/projects/3
