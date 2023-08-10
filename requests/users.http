@@ -9,10 +9,10 @@ GET http://localhost:8080/api/users/1
 POST http://localhost:8080/api/users
   
 {
-    "username": "Benjamin",
+    "username": "facucarrion",
     "display_name": null,
-    "email": "benja@gmail.com",
-    "password": "askldjalskdjalksjdlksjad"
+    "email": "facundojcarrion@gmail.com",
+    "password": "facu281005"
 }
 
 ###

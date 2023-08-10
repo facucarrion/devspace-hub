@@ -31,7 +31,7 @@ $routes->set404Override();
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
-$routes->group('api', function($routes) {
+$routes->group('api', ['filter' => 'cors'], function($routes) {
     $routes->group('tags', function($routes) {
         $routes->get('/', 'TagsController::getAll');
         $routes->get('(:num)', 'TagsController::getById/$1');
@@ -68,6 +68,10 @@ $routes->group('api', function($routes) {
         $routes->post('/', 'ProjectsController::create');
         $routes->delete('(:num)', 'ProjectsController::delete/$1');
         $routes->patch('(:num)', 'ProjectsController::edit/$1');
+    });
+
+    $routes->group('auth', function ($routes) {
+        $routes->post('login', 'AuthController::login');
     });
 });
 
