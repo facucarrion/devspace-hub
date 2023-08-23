@@ -14,5 +14,14 @@ export async function login({ email, password }: LoginProps) {
 
   const data = await response.json()
 
-  return data
+  console.log(data)
+
+  localStorage.setItem('jwt', data.token)
+  localStorage.setItem('user_id', data.user.id_user)
+
+  if(response.status === 200) {
+    location.href = 'http://localhost:3000/'
+  } else {
+    location.href = 'http://localhost:3000/auth'
+  }
 }

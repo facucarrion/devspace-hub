@@ -5,3 +5,20 @@ Content-Type: application/json
     "email": "facundojcarrion@gmail.com",
     "password": "facu281005"
 }
+
+###
+
+POST http://localhost:8080/api/auth/register
+Content-Type: application/json
+
+{
+    "username": "facu",
+    "email": "randalxd@gmail.com",
+    "display_name": "Facundo",
+    "password": "facu281005",
+    "repeat_password": "facu281005"
+}
+
+###
+
+GET http://localhost:8080/api/auth/verify-token/eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOjE2OTIyMTE0MjcsImV4cCI6MTY5MjI5NzgyNywidXNlciI6eyJpZF91c2VyIjoiNSIsInVzZXJuYW1lIjoiZmFjdWNhcnJpb24iLCJkaXNwbGF5X25hbWUiOm51bGwsImVtYWlsIjoiZmFjdW5kb2pjYXJyaW9uQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoiJDJ5JDEwJDY3d1FkSEhDOXN1bTg2S0lyMXo4M3VHUE9zUXNzUVJ1TnI1c1NybElEMzFIdlNWQ0VYWG1DIiwiY3JlYXRlZF9hdCI6IjIwMjMtMDgtMDkgMTk6MzA6MjYifX0.xrPEMPX1oJvaOiVpzGLPewqCY3OdS0EXM_mm8Eo46Ig

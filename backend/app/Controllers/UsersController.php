@@ -41,7 +41,6 @@ class UsersController extends BaseController{
     ]);
 
     if($newUser){
-
       return $this->respondCreated($this->usersModel->find($newUser), 'User created!');
     }else{
       return $this->fail($this->usersModel->errors(), 400);

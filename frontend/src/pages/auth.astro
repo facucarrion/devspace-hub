@@ -1,0 +1,16 @@
+---
+import Layout from '../layouts/RootLayout.astro'
+import AuthForm from '../components/AuthForm.svelte'
+---
+
+<Layout title="Inicio">
+	
+<AuthForm client:only />
+
+</Layout>
+
+<style>
+	body {
+		background-color: #212121;
+	}
+</style>

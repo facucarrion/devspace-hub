@@ -8,19 +8,19 @@ use CodeIgniter\API\ResponseTrait as APIResponseTrait;
 class FollowsController extends BaseController {
   use APIResponseTrait;
 
-  private $followModel;
+  private $followsModel;
 
   public function __construct() {
-    $this->followModel = new FollowsModel();
+    $this->followsModel = new FollowsModel();
   }
 
   public function getAll() {
-    $follows = $this->followModel->findAll();
+    $follows = $this->followsModel->findAll();
     return $this->respond($follows, 200);
   }
 
   public function getById($id) {
-    $follow = $this->followModel->find($id);
+    $follow = $this->followsModel->find($id);
 
     if ($follow) {
       return $this->respond($follow, 200);
@@ -32,24 +32,28 @@ class FollowsController extends BaseController {
   public function create() {
     $follow = $this->request->getJSON();
 
-    $insertedFollow = $this->followModel->insert([
+    $insertedFollow = $this->followsModel->insert([
       'id_user_followed' => $follow->id_user_followed,
       'id_user_follower' => $follow->id_user_follower,
       'created_at' => date('Y-m-d H:i:s')
     ]);
 
     if ($insertedFollow) {
-      return $this->respondCreated($this->followModel->find($insertedFollow), 'Follow created!');
+      return $this->respondCreated($this->followsModel->find($insertedFollow), 'Follow created!');
     } else {
-      return $this->fail($this->followModel->errors(), 400);
+      return $this->fail($this->followsModel->errors(), 400);
     }
   }
 
   public function delete($id) {
-    if ($this->followModel->delete($id)) {
+    if ($this->followsModel->delete($id)) {
       return $this->respondDeleted(['id_follow' => $id], 'Follow deleted!');
     } else {
-      return $this->fail($this->followModel->errors(), 400);
+      return $this->fail($this->followsModel->errors(), 400);
     }
+  }
+
+  public function getFollowsById($id) {
+    return $this->respond($this->followsModel->getFollowsById($id));
   }
 }

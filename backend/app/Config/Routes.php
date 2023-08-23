@@ -45,6 +45,7 @@ $routes->group('api', ['filter' => 'cors'], function($routes) {
         $routes->get('(:num)', 'FollowsController::getById/$1');
         $routes->post('/', 'FollowsController::create');
         $routes->delete('(:num)', 'FollowsController::delete/$1');
+        $routes->get('test/(:num)', 'FollowsController::getFollowsById/$1');
     });
 
     $routes->group('tag_projects', function($routes) {
@@ -57,7 +58,7 @@ $routes->group('api', ['filter' => 'cors'], function($routes) {
     $routes->group('users', function($routes) {
         $routes->get('/', 'UsersController::getAll');
         $routes->get('(:num)', 'UsersController::getById/$1');
-        $routes->post('/', 'UsersController::create');
+        // $routes->post('/', 'UsersController::create');
         $routes->delete('(:num)', 'UsersController::delete/$1');
         $routes->put('(:num)', 'UsersController::edit/$1');
     });
@@ -72,6 +73,8 @@ $routes->group('api', ['filter' => 'cors'], function($routes) {
 
     $routes->group('auth', function ($routes) {
         $routes->post('login', 'AuthController::login');
+        $routes->post('register', 'AuthController::register');
+        $routes->get('get-secret/(:num)', 'AuthController::getJwtSecret/$1');
     });
 });
 

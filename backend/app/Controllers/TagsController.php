@@ -32,12 +32,12 @@ class TagsController extends BaseController {
   public function create() {
     $tag = $this->request->getJSON();
 
-    if ($this->tagsModel->insert([
+    $newTag = $this->tagsModel->insert([
       'tag' => $tag->tag
-    ])) {
-      $tag->id_tag = $this->tagsModel->getInsertID();
+    ]);
 
-      return $this->respondCreated($tag, 'Tag created!');
+    if($newTag) {
+      return $this->respondCreated($this->tagsModel->find($newTag), 'Tag created!');
     } else {
       return $this->fail($this->tagsModel->errors(), 400);
     }
