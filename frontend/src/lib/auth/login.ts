@@ -17,6 +17,7 @@ export async function login({ email, password }: LoginProps) {
   console.log(data)
 
   localStorage.setItem('jwt', data.token)
+  localStorage.setItem('jwt_secret', data.user.password)
   localStorage.setItem('user_id', data.user.id_user)
 
   if(response.status === 200) {

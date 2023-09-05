@@ -1,0 +1,24 @@
+---
+import Layout from '../../layouts/RootLayout.astro'
+import { getUserByUsername, getUser } from '../../lib/users/getUser'
+
+const { username } = Astro.params
+
+if (!username) {
+  location.href = 'http://localhost:3000/'
+}
+
+const user = await getUser(5)
+console.log(user)
+
+---
+
+<Layout title={user.username}>
+  <strong>{username}</strong>
+  <p>{user.id_user}</p>
+  <h1>{user.username}</h1>
+  <h2>{user.display_name}</h2>
+  <p>{user.email}</p>
+  <p>{user.password}</p>
+  <p>{user.created_at}</p>
+</Layout>

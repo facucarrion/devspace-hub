@@ -19,19 +19,24 @@
   let activeForm = Forms.login;
 </script>
 
-{#if activeForm.action === "login"}
-  <LoginForm />
-{:else if activeForm.action === "register"}
-  <RegisterForm />
-{/if}
+<main class="flex flex-col gap-4 w-full max-w-[400px]">
+  {#if activeForm.action === "login"}
+    <LoginForm />
+  {:else if activeForm.action === "register"}
+    <RegisterForm />
+  {/if}
 
-{#if new URL(location.href).searchParams.get('session') === 'invalid'}
-<InvalidSession />
-{/if}
+  {#if new URL(location.href).searchParams.get('session') === 'invalid'}
+    <InvalidSession />
+  {/if}
 
-<button
-  class="text-base text-white"
-  on:click={() => activeForm = activeForm.action === "login" ? Forms.register : Forms.login}
->
-  {activeForm.changeFormText}
-</button>
+  <button
+    class="text-base text-white"
+    on:click={() => activeForm = activeForm.action === "login" ? Forms.register : Forms.login}
+  >
+    {activeForm.changeFormText}
+    
+  </button>
+</main>
+
+

@@ -58,7 +58,7 @@ $routes->group('api', ['filter' => 'cors'], function($routes) {
     $routes->group('users', function($routes) {
         $routes->get('/', 'UsersController::getAll');
         $routes->get('(:num)', 'UsersController::getById/$1');
-        // $routes->post('/', 'UsersController::create');
+        $routes->get('username/(:any)', 'UsersController::getByUsername/$1');
         $routes->delete('(:num)', 'UsersController::delete/$1');
         $routes->put('(:num)', 'UsersController::edit/$1');
     });

@@ -18,7 +18,7 @@
 	}
 </script>
 
-<form id="login-form" class="flex flex-col items-center border-2 border-black rounded-md p-4 w-1/5 gap-8" on:submit={handleLogin}>
+<form id="login-form" class="flex flex-col items-center rounded-md p-4 w-full gap-8 backdrop-blur-md bg-[#14141466]" on:submit={handleLogin}>
 	<h2
 		class="text-2xl text-white w-full text-left"
 	>

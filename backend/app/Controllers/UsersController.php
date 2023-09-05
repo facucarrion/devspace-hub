@@ -28,6 +28,16 @@ class UsersController extends BaseController{
     }
   }
 
+  public function getByUsername($username){
+    $user = $this->usersModel->where('username', $username)->first();
+
+    if($user){
+      return $this->respond($user, 200);
+    }else{
+      return $this->failNotFound('No user found with username ' . $username, 404);
+    }
+  }
+
   public function create(){
     $user = $this->request->getJSON();
     $hashedPassword = password_hash($user->password, PASSWORD_BCRYPT);

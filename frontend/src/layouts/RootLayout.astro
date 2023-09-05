@@ -20,11 +20,12 @@ const {
 
   <script>
     import { isValidSession } from '../lib/auth/sessions/isValidSession'
+    import { logOut } from '../lib/auth/logOut'
 
     console.log(location.href)
 
     if (!location.href.startsWith('http://localhost:3000/auth') && !await isValidSession()) {
-      location.href = 'http://localhost:3000/auth'
+      logOut()
     }
 
     if (location.href === 'http://localhost:3000/auth' && await isValidSession()) {
@@ -37,5 +38,25 @@ const {
 <style>
   * {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  body {
+    background: #252525;
+    color: #fff;
+    z-index: -1;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background: #ffe13433;
+    border-radius: 100%;
+    filter: blur(120px);
+    z-index: -1;
   }
 </style>

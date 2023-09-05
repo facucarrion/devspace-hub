@@ -7,7 +7,7 @@ export async function verifyJwt() {
   if (!token) return false
   
   try {
-    const jwtSecret = await getUserToken()
+    const jwtSecret = localStorage.getItem('jwt_secret') ?? ''
     const { payload } = await jwtVerify(token, new TextEncoder().encode(jwtSecret))
 
     console.log('se hizo')
