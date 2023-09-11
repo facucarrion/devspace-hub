@@ -20,9 +20,5 @@ export async function login({ email, password }: LoginProps) {
   localStorage.setItem('jwt_secret', data.user.password)
   localStorage.setItem('user_id', data.user.id_user)
 
-  if(response.status === 200) {
-    location.href = 'http://localhost:3000/'
-  } else {
-    location.href = 'http://localhost:3000/auth'
-  }
+  return response
 }

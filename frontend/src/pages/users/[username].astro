@@ -1,24 +1,38 @@
 ---
-import Layout from '../../layouts/RootLayout.astro'
-import { getUserByUsername, getUser } from '../../lib/users/getUser'
+import Layout from '@layout/RootLayout.astro'
+import FollowButton from '@comp/ui/FollowButton.svelte'
+import UserName from '@comp/UserName.svelte'
+import { getUserByUsername } from '@lib/users/getUser'
+import RandomUsers from '@comp/random-data/RandomUsers.astro'
+
+export const prerender = false
 
 const { username } = Astro.params
 
 if (!username) {
-  location.href = 'http://localhost:3000/'
+  Astro.redirect('/')
 }
 
-const user = await getUser(5)
-console.log(user)
+const user = await getUserByUsername(username as string)
 
+if (user?.status === 404) {
+  return Astro.redirect('/404?message=Usuario%20no%20encontrado')
+}
 ---
 
-<Layout title={user.username}>
-  <strong>{username}</strong>
-  <p>{user.id_user}</p>
-  <h1>{user.username}</h1>
-  <h2>{user.display_name}</h2>
-  <p>{user.email}</p>
-  <p>{user.password}</p>
-  <p>{user.created_at}</p>
+<Layout title={user.display_name ?? user.username}>
+  <main class="flex flex-col items-center w-full flex-grow">
+    <header class="flex items-center justify-between w-full gap-4 py-4">
+      <div class="flex items-center gap-4">
+        <img
+          src='https://alumni.engineering.utoronto.ca/files/2022/05/Avatar-Placeholder-400x400-1.jpg'
+          alt={user.username}
+          class="aspect-square h-20 rounded-full" 
+        />
+        <UserName username={user.username} display_name={user.display_name} />
+      </div>
+      <FollowButton client:load />
+    </header>
+    <RandomUsers />
+  </main>
 </Layout>

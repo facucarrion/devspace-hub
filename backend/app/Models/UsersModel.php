@@ -22,4 +22,10 @@ class UsersModel extends Model {
 
   protected $dateFormat = 'datetime';
   protected $createdField = 'created_at';
+
+  public function getRandomUsers($limit = 5) {
+    $query = $this->db->query("SELECT * FROM users ORDER BY RAND() LIMIT $limit");
+
+    return $query->getResultArray();
+  }
 }

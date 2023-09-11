@@ -1,20 +1,26 @@
 <script lang="ts">
-	import { login } from "../lib/auth/login";
+	import { login } from "@lib/auth/login";
 
 	const handleLogin = async (event: SubmitEvent) => {
-		const form = document.getElementById("login-form");
-
 		event.preventDefault()
 
-		const email = form?.querySelector('input[name="email"]') as HTMLInputElement;
-		const password = form?.querySelector('input[name="password"]') as HTMLInputElement;
+		const form = event.target as HTMLFormElement
+
+		const email = form.querySelector('input[name="email"]') as HTMLInputElement;
+		const password = form.querySelector('input[name="password"]') as HTMLInputElement;
 
 		const formData = {
 			email: email.value,
 			password: password.value
 		}
 
-		login(formData);
+		const response = await login(formData);
+		
+		if(response.status === 200) {
+    	location.href = 'http://localhost:3000/'
+  	} else {
+    	location.href = 'http://localhost:3000/auth'
+  	}
 	}
 </script>
 

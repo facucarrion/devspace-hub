@@ -1,0 +1,11 @@
+---
+import Layout from "@layout/RootLayout.astro";
+
+const message = new URL(Astro.url).searchParams.get('message')
+
+---
+
+<Layout title="404">
+  <img src="https://media1.giphy.com/media/QMHoU66sBXqqLqYvGO/giphy.gif" alt="" class="h-[300px]" loading="lazy">
+  <h1 class="text-4xl mt-4 font-semibold">{message ?? 'Página no encontrada'}</h1>
+</Layout>

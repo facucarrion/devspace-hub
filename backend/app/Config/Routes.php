@@ -45,7 +45,9 @@ $routes->group('api', ['filter' => 'cors'], function($routes) {
         $routes->get('(:num)', 'FollowsController::getById/$1');
         $routes->post('/', 'FollowsController::create');
         $routes->delete('(:num)', 'FollowsController::delete/$1');
-        $routes->get('test/(:num)', 'FollowsController::getFollowsById/$1');
+        $routes->get('followers/(:num)', 'FollowsController::getFollowersOfUser/$1');
+        $routes->get('follows/(:num)', 'FollowsController::getFollowsOfUser/$1');
+        $routes->get('count/(:num)', 'FollowsController::getFollowersCount/$1');
     });
 
     $routes->group('tag_projects', function($routes) {
@@ -61,6 +63,7 @@ $routes->group('api', ['filter' => 'cors'], function($routes) {
         $routes->get('username/(:any)', 'UsersController::getByUsername/$1');
         $routes->delete('(:num)', 'UsersController::delete/$1');
         $routes->put('(:num)', 'UsersController::edit/$1');
+        $routes->get('random/(:num)', 'UsersController::getRandomUsers/$1');
     });
 
     $routes->group('projects', function($routes) {
@@ -74,7 +77,6 @@ $routes->group('api', ['filter' => 'cors'], function($routes) {
     $routes->group('auth', function ($routes) {
         $routes->post('login', 'AuthController::login');
         $routes->post('register', 'AuthController::register');
-        $routes->get('get-secret/(:num)', 'AuthController::getJwtSecret/$1');
     });
 });
 

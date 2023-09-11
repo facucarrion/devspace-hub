@@ -1,5 +1,4 @@
 import { jwtVerify } from "jose";
-import { getUserToken } from "../helpers/getUserToken";
 
 export async function verifyJwt() {
   const token = localStorage.getItem('jwt');
@@ -10,18 +9,13 @@ export async function verifyJwt() {
     const jwtSecret = localStorage.getItem('jwt_secret') ?? ''
     const { payload } = await jwtVerify(token, new TextEncoder().encode(jwtSecret))
 
-    console.log('se hizo')
-
     if (payload) {
       return true
     }
 
     return false
   } catch (error) {
-    console.log('error')
     console.error(error)
     return false
   }
-
-  return false
 }

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { register } from "../lib/auth/register";
+	import { register } from "@lib/auth/register";
 
 	const handleSubmit = async (event: SubmitEvent) => {
 		const form = document.getElementById("register-form");
@@ -22,6 +22,12 @@
 
 		const response = await register(formData);
 
+		if(response.registerData.status === 200) {
+    	location.href = 'http://localhost:3000/'
+  	} else {
+    	location.href = 'http://localhost:3000/auth'
+  	}
+
 		console.log(response)
 	}
 </script>
@@ -37,7 +43,7 @@
 		type="text"
 		name="username" 
 		class="w-full border-b-2 border-white bg-transparent focus:outline-none text-white text-lg pl-1"
-		placeholder="UserName"
+		placeholder="Username"
 		required
 	/>
 	<input

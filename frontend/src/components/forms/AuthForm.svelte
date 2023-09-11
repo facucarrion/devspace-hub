@@ -1,5 +1,5 @@
 <script lang="ts">
-  import InvalidSession from "./InvalidSession.svelte"
+  import InvalidSession from "../ui/InvalidSession.svelte"
   import LoginForm from "./LoginForm.svelte"
   import RegisterForm from "./RegisterForm.svelte"
 
@@ -19,7 +19,7 @@
   let activeForm = Forms.login;
 </script>
 
-<main class="flex flex-col gap-4 w-full max-w-[400px]">
+<main class="flex flex-col justify-center flex-grow gap-4 w-full max-w-[400px]">
   {#if activeForm.action === "login"}
     <LoginForm />
   {:else if activeForm.action === "register"}
@@ -35,7 +35,6 @@
     on:click={() => activeForm = activeForm.action === "login" ? Forms.register : Forms.login}
   >
     {activeForm.changeFormText}
-    
   </button>
 </main>
 

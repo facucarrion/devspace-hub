@@ -22,18 +22,43 @@ class FollowsModel extends Model
     protected $dateFormat = 'datetime';
     protected $createdField  = 'created_at';
 
-    public function getFollowsById($id) {
-        $followers = $this->where('id_user_follower', $id)->select(
-            'count(id_user_follower) as followers'
-        )->first();
+    public function getFollowersOfUser($id) {
+        return $this->db
+            ->table('follows')
+            ->select('u.*')
+            ->join('users u', 'u.id_user = follows.id_user_follower')
+            ->where('follows.id_user_followed', $id)
+            ->get()
+            ->getResult();
+    }
 
-        $followed = $this->where('id_user_followed', $id)->select(
-            'count(id_user_followed) as followed'
-        )->first(); 
+    public function getFollowsOfUser($id) {
+        return $this->db
+            ->table('follows')
+            ->select('u.*')
+            ->join('users u', 'u.id_user = follows.id_user_followed')
+            ->where('follows.id_user_follower', $id)
+            ->get()
+            ->getResult();
+    }
 
-        return [
-            'followers' => (int)$followed['followed'],
-            'followed' => (int)$followers['followers'],
-        ];
+    public function getFollowersCount($id) {
+        return $this->db
+            ->table('follows')
+            ->select('count(*) as followers_count')
+            ->where('follows.id_user_followed', $id)
+            ->get()
+            ->getRow()
+            ->followers_count;
+    }
+
+    public function getFollowingsCount($id) {
+        return $this->db
+            ->table('follows')
+            ->select('count(*) as follows_count')
+            ->where('follows.id_user_follower', $id)
+            ->get()
+            ->getRow()
+            ->follows_count;
     }
 }

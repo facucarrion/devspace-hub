@@ -5,7 +5,7 @@ export async function getUser(id: number) {
 }
 
 export async function getUserByUsername(username: string) {
-  const response = await fetch(`http://localhost:8080/api/users/username/${username}`)
+  const response = await fetch(`http://127.0.0.1:8080/api/users/username/${username}`)
   const data = await response.json()
   return data
 }

@@ -6,16 +6,15 @@ interface Props {
 }
 
 export async function decodeJWT({ token }: Props) {
-  const tokenKey = await getUserToken()
+  const tokenKey = localStorage.getItem('jwt_secret') as string;
 
   try {
     const {
-      payload: { exp, iat, ...decoded },
-    } = await jwtVerify(token, new TextEncoder().encode(await tokenKey))
+      payload
+    } = await jwtVerify(token, new TextEncoder().encode(tokenKey))
     
-    return decoded;
+    return payload;
   } catch (error) {
-    console.error(error);
     return null;
   }
 }

@@ -81,4 +81,10 @@ class UsersController extends BaseController{
       return $this->fail($this->usersModel->errors(), 400);
     }
   }
+
+  public function getRandomUsers($limit = 5){
+    $users = $this->usersModel->getRandomUsers($limit);
+
+    return $this->respond($users, 200);
+  }
 }

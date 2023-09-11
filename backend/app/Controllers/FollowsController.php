@@ -53,7 +53,18 @@ class FollowsController extends BaseController {
     }
   }
 
-  public function getFollowsById($id) {
-    return $this->respond($this->followsModel->getFollowsById($id));
+  public function getFollowersOfUser($id) {
+    $this->respond($this->followsModel->getFollowersOfUser($id));
+  }
+
+  public function getFollowsOfUser($id) {
+    $this->respond($this->followsModel->getFollowsOfUser($id));
+  }
+
+  public function getFollowCounts($id) {
+    return $this->respond([
+      'followers' => $this->followsModel->getFollowersCount($id),
+      'followings' => $this->followsModel->getFollowingsCount($id)
+    ]);
   }
 }

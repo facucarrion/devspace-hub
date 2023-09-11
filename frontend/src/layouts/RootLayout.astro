@@ -1,4 +1,5 @@
 ---
+import Footer from '@comp/Footer.svelte';
 export interface Props {
   title: string
 }
@@ -9,29 +10,17 @@ const {
 ---
 
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="flex flex-col items-center w-full h-full">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title} - DevSpace HUB</title>
 </head>
-<body class="min-h-screen flex flex-col justify-center items-center">
+<body class="min-h-screen w-full flex flex-col items-center max-w-[800px] m-0">
   <slot />
+  <Footer />
 
-  <script>
-    import { isValidSession } from '../lib/auth/sessions/isValidSession'
-    import { logOut } from '../lib/auth/logOut'
-
-    console.log(location.href)
-
-    if (!location.href.startsWith('http://localhost:3000/auth') && !await isValidSession()) {
-      logOut()
-    }
-
-    if (location.href === 'http://localhost:3000/auth' && await isValidSession()) {
-      location.href = 'http://localhost:3000'
-    }
-  </script>
+  <script src="@lib/auth/sessions/handleSession" />
 </body>
 </html>
 
