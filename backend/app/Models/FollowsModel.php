@@ -55,10 +55,10 @@ class FollowsModel extends Model
     public function getFollowingsCount($id) {
         return $this->db
             ->table('follows')
-            ->select('count(*) as follows_count')
+            ->select('count(*) as following_count')
             ->where('follows.id_user_follower', $id)
             ->get()
             ->getRow()
-            ->follows_count;
+            ->following_count;
     }
 }

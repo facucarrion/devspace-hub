@@ -5,4 +5,5 @@ export interface User {
   password: string
   email: string
   created_at: string
+  status?: number
 }

@@ -4,6 +4,9 @@ import FollowButton from '@comp/ui/FollowButton.svelte'
 import UserName from '@comp/UserName.svelte'
 import { getUserByUsername } from '@lib/users/getUser'
 import RandomUsers from '@comp/random-data/RandomUsers.astro'
+import { getFollowsCount } from '@lib/follows/getFollowsCount'
+import type { User } from '../../types/User'
+import FollowCount from '@comp/ui/FollowCount.svelte'
 
 export const prerender = false
 
@@ -13,7 +16,12 @@ if (!username) {
   Astro.redirect('/')
 }
 
-const user = await getUserByUsername(username as string)
+const user: User = await getUserByUsername(username as string)
+
+const followCount: {
+  followers: number,
+  followings: number
+} = await getFollowsCount(user.id_user)
 
 if (user?.status === 404) {
   return Astro.redirect('/404?message=Usuario%20no%20encontrado')
@@ -31,6 +39,7 @@ if (user?.status === 404) {
         />
         <UserName username={user.username} display_name={user.display_name} />
       </div>
+      <FollowCount client:load counts={followCount}  />
       <FollowButton client:load />
     </header>
     <RandomUsers />
