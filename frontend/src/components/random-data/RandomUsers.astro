@@ -9,16 +9,16 @@ const randomUsers = await getRandomUsers(5)
 <section class="flex w-full justify-between items-center h-48">
   {
     randomUsers.map((user: User) => (
-      <article class="h-full min-w-[150px] rounded-md flex flex-col items-center justify-between p-2 border-2 border-black">
+      <a href={`/users/${user.username}`} class="h-full min-w-[150px] rounded-md flex flex-col items-center justify-between p-2 border-2 border-black">
         <img
           src='https://alumni.engineering.utoronto.ca/files/2022/05/Avatar-Placeholder-400x400-1.jpg'
           alt={user.username}
           class="h-20 rounded-full"
         />
         <h3 class="text-lg text-white text-opacity-70">{user.username}</h3>
-        
+      
         <FollowButton variant='full' client:load />
-      </article>
+      </a>
     ))
   }
 </section>
