@@ -22,4 +22,14 @@ class ProjectsModel extends Model{
 
   protected $dateFormat = 'datetime';
   protected $createdField  = 'created_at';
+
+  public function getDatesOfUserCreator($id){
+    return $this->db
+        ->table('projects') 
+        ->select('u.*')
+        ->join('users u', 'u.id_user = projects.id_user_creator')
+        ->where('projects.id_user_creator', $id)
+        ->get()
+        -getResult();
+  }
 }
