@@ -37,5 +37,3 @@
     {activeForm.changeFormText}
   </button>
 </main>
-
-

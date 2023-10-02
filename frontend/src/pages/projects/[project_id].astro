@@ -1,0 +1,18 @@
+---
+import Layout from '@layout/RootLayout.astro'
+import { getProject } from '@lib/projects/getProject'
+
+const { project_id } = Astro.params
+
+if(!project_id) {
+  Astro.redirect('/')
+}
+
+const project = await getProject(parseInt(project_id as string))
+
+console.log(project)
+---
+
+<Layout title={project.title}>
+
+</Layout>
