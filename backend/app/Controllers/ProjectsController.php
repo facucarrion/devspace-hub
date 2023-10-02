@@ -80,4 +80,10 @@ class ProjectsController extends BaseController{
     }
   }
 
+  public function getRandomProjects($limit = 5){
+    $project = $this->projectsModel->getRandomProjects($limit);
+
+    return $this->respond($project, 200);
+  }
+
 }
