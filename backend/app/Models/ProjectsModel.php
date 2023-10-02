@@ -32,4 +32,7 @@ class ProjectsModel extends Model{
         ->get()
         -getResult();
   }
+  public function getRandomProjects($limit = 5) {
+    $query = $this->db->query("SELECT * FROM projects ORDER BY RAND() $limit");
+  }
 }
