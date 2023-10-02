@@ -1,0 +1,12 @@
+---
+import Layout from '@layout/RootLayout.astro'
+import ProjectForm from '@comp/forms/ProjectForm.svelte'
+---
+
+<Layout title='New Project'>
+
+<main class="flex flex-col justify-center flex-grow gap-4 w-full max-w-[400px]">
+  <ProjectForm client:only />
+</main>
+
+</Layout>

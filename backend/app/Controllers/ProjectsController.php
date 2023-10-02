@@ -31,7 +31,7 @@ class ProjectsController extends BaseController{
 
   public function create() {
     $project = $this->request->getJSON();
-
+    
     
     $newProject = $this->projectsModel->insert([
       'title' => $project->title,
