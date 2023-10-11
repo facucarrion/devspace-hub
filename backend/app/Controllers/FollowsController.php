@@ -67,4 +67,11 @@ class FollowsController extends BaseController {
       'followings' => $this->followsModel->getFollowingsCount($id)
     ]);
   }
+
+  public function follow($id,$id_followed) {
+    $this->respond($this->followsModel->follow($id,$id_followed));
+  }
+  public function unFollow($id) {
+    $this->respond($this->followsModel->unFollow($id,$id_followed));
+  }
 }
