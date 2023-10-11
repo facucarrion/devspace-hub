@@ -43,29 +43,39 @@ class AuthController extends BaseController {
   }
 
   public function register() {
-    $user = $this->request->getJSON();
+    $username = $this->request->getPost('username');
+    $email = $this->request->getPost('email');
+    $avatar = $this->request->getFile('avatar');
+    $displayName = $this->request->getPost('display_name');
+    $password = $this->request->getPost('password');
+    $repeatPassword = $this->request->getPost('repeat_password');
 
-    if($user->password !== $user->repeat_password) {
+    $newAvatarName = $avatar->getRandomName();
+    $uploads = 'img/avatars';
+    $avatar->move($uploads, $newAvatarName);
+
+    if($password !== $repeatPassword) {
       return $this->fail('Password confirmation does not match', 400);
     }
 
-    $hashedPassword = password_hash($user->password, PASSWORD_BCRYPT);
-    $sameMail = $this->usersModel->where('email', $user->email)->first();
+    $hashedPassword = password_hash("$password", PASSWORD_BCRYPT);
+    $sameMail = $this->usersModel->where('email', $email)->first();
 
     if($sameMail) {
       return $this->fail('User already exists', 400);
     }
 
     $newUser = $this->usersModel->insert([
-      'username' => $user->username,
-      'display_name' => $user->display_name,
-      'email' => $user->email,
+      'username' => $username,
+      'display_name' => $displayName,
+      'email' => $email,
+      'avatar' => base_url($uploads . '/' . $newAvatarName),
       'password' => $hashedPassword,
       'created_at' => date('Y-m-d H:i:s')
     ]);
 
 
-    if($user) {
+    if($newUser) {
       return $this->respondCreated($this->usersModel->find($newUser));
     } else {
       return $this->fail('User not registered', 400);

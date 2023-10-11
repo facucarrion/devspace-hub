@@ -15,6 +15,8 @@ class ProjectsModel extends Model{
     'id_project',
     'title',
     'description',
+    'url',
+    'logo',
     'upvotes',
     'id_user_creator',
     'created_at'

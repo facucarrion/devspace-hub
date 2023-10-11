@@ -12,9 +12,16 @@
 
   const follow = () => (following = true)
   const unfollow = () => (following = false)
+
+  const handleClick = (event) => {
+    event.preventDefault()
+    following ? unfollow() : follow()
+  }
 </script>
 
-<button class={`${SIZES[variant]} bg-white text-black font-bold rounded-full`} on:click={following ? unfollow : follow}>
+<button class={`${SIZES[variant]} bg-white text-black font-bold rounded-full relative z-20 hover:bg-black hover:text-white`}
+  on:click={handleClick}
+>
   {#if following}
     Unfollow
   {:else}
