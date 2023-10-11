@@ -61,4 +61,23 @@ class FollowsModel extends Model
             ->getRow()
             ->following_count;
     }
+    public function follow($id,$id_followed) {
+        return $this->db
+            ->table('follows')
+            ->insert($id,$id_followed)
+            ->get()
+            ->getRow()
+            ->following;
+            
+    }
+    public function unFollow($id) {
+        return $this->db
+            ->table('follows')
+            ->delete("*")
+            ->where("follows.id_followed",$id)
+            ->get()
+            ->getRow()
+            ->unFollowing;
+            
+    }
 }

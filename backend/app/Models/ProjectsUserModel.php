@@ -13,6 +13,7 @@ class ProjectsUserModel extends Model
     
     protected $useAutoIncrement = true;
     protected $allowedFields    = [
+      'projects_user',
       "id_project",
       "id_user",
       "is_editor"

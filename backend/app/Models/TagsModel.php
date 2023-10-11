@@ -12,7 +12,10 @@ class TagsModel extends Model {
 
   protected $returnType = 'array';
 
-  protected $allowedFields = ['id_tag', 'tag'];
+  protected $allowedFields = [
+    'id_tag', 
+    'tag'
+  ];
 
   public function encontrarTodo() {
     return $this->findAll();

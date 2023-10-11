@@ -48,6 +48,8 @@ $routes->group('api', ['filter' => 'cors'], function($routes) {
         $routes->get('followers/(:num)', 'FollowsController::getFollowersOfUser/$1');
         $routes->get('follows/(:num)', 'FollowsController::getFollowsOfUser/$1');
         $routes->get('count/(:num)', 'FollowsController::getFollowCounts/$1');
+        $routes->post('follow/(:num)','FollowsController::follow/$1');
+        $routes->delete('unfollow/(:num)','FollowsController::unFollow/$1');
     });
 
     $routes->group('tag_projects', function($routes) {
