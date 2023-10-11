@@ -82,8 +82,15 @@ class UsersController extends BaseController{
     }
   }
 
-  public function getRandomUsers($limit = 5){
-    $users = $this->usersModel->getRandomUsers($limit);
+  public function getRandomUsers($ownUser){
+    $limit = $this->request->getVar('limit') ?? 5;
+
+    $this->respond([
+      'limit' => $limit,
+      'ownUser' => $ownUser
+    ]);
+
+    $users = $this->usersModel->getRandomUsers($limit, $ownUser);
 
     return $this->respond($users, 200);
   }

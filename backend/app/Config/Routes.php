@@ -59,6 +59,7 @@ $routes->group('api', ['filter' => 'cors'], function($routes) {
 
     $routes->group('users', function($routes) {
         $routes->get('/', 'UsersController::getAll');
+        $routes->post('/', 'UsersController::create');
         $routes->get('(:num)', 'UsersController::getById/$1');
         $routes->get('username/(:any)', 'UsersController::getByUsername/$1');
         $routes->delete('(:num)', 'UsersController::delete/$1');
@@ -77,6 +78,10 @@ $routes->group('api', ['filter' => 'cors'], function($routes) {
     $routes->group('auth', function ($routes) {
         $routes->post('login', 'AuthController::login');
         $routes->post('register', 'AuthController::register');
+    });
+
+    $routes->group('images', function ($routes) {
+        $routes->post('/', 'ImagesController::loadImage');
     });
 });
 

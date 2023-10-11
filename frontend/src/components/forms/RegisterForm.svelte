@@ -2,23 +2,11 @@
 	import { register } from "@lib/auth/register";
 
 	const handleSubmit = async (event: SubmitEvent) => {
-		const form = document.getElementById("register-form");
+		const form = event.target as HTMLFormElement;
 		
 		event.preventDefault();
 
-		const username = form?.querySelector('input[name="username"]') as HTMLInputElement;
-		const email = form?.querySelector('input[name="email"]') as HTMLInputElement;
-		const display_name = form?.querySelector('input[name="display_name"]') as HTMLInputElement;
-		const password = form?.querySelector('input[name="password"]') as HTMLInputElement;
-		const repeat_password = form?.querySelector('input[name="repeat_password"]') as HTMLInputElement;
-
-		const formData = {
-			username: username.value,
-			email: email.value,
-			display_name: display_name.value === '' ? null : display_name.value,
-			password: password.value,
-			repeat_password: repeat_password.value
-		}
+		const formData = new FormData(form)
 
 		const response = await register(formData);
 
@@ -52,6 +40,12 @@
 		class="w-full border-b-2 border-white bg-transparent focus:outline-none text-white text-lg pl-1"
 		placeholder="Email"
 		required
+	/>
+	<input
+		type="file"
+		accept="image/*"
+		name="avatar"
+		class="w-full"
 	/>
   <input
 		type="text"

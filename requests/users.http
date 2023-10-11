@@ -9,15 +9,15 @@ GET http://localhost:8080/api/users/1
 POST http://localhost:8080/api/users
   
 {
-    "username": "facucarrion",
-    "display_name": null,
-    "email": "facundojcarrion@gmail.com",
-    "password": "facu281005"
+    "username": "lautidelacha",
+    "display_name": "Lautaro del Acha",
+    "email": "lautidelacha@gmail.com",
+    "password": "lautidelacha"
 }
 
 ###
 
-PUT http://localhost:8080/api/users/1
+PATCH http://localhost:8080/api/users/1
 
 {
     "name": "",

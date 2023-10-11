@@ -3,7 +3,7 @@ import type { User } from '../../types/User'
 import Layout from '@layout/RootLayout.astro'
 import FollowButton from '@comp/ui/FollowButton.svelte'
 import UserName from '@comp/UserName.svelte'
-import RandomUsers from '@comp/random-data/RandomUsers.astro'
+import RandomUsers from '@comp/random-data/RandomUsers.svelte'
 import FollowCount from '@comp/ui/FollowCount.svelte'
 import EditProfileButton from '@comp/ui/EditProfileButton.svelte'
 import { getFollowsCount } from '@lib/follows/getFollowsCount'
@@ -32,7 +32,7 @@ if (user?.status === 404) {
     <header class="flex items-center justify-between w-full gap-4 py-4">
       <div class="flex items-center gap-4">
         <img
-          src='https://alumni.engineering.utoronto.ca/files/2022/05/Avatar-Placeholder-400x400-1.jpg'
+          src={user.avatar !== '' ? user.avatar : 'http://localhost:8080/img/placeholders/avatar.jpg'}
           alt={user.username}
           class="aspect-square h-20 rounded-full" 
         />
@@ -42,6 +42,6 @@ if (user?.status === 404) {
       <FollowCount client:load counts={followCount}  />
       <FollowButton client:load />
     </header>
-    <RandomUsers />
+    <RandomUsers client:only />
   </main>
 </Layout>
