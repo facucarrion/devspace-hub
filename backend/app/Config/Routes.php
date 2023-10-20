@@ -76,6 +76,7 @@ $routes->group('api', ['filter' => 'cors'], function($routes) {
         $routes->delete('(:num)', 'ProjectsController::delete/$1');
         $routes->patch('(:num)', 'ProjectsController::edit/$1');
         $routes->get('random/(:num)', 'ProjectsController::getRandomProjects/$1');
+        $routes->patch('upvotes/(:num)','ProjectsController::upvotes/$1');
     });
 
     $routes->group('projects-user', function($routes){

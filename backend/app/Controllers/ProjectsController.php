@@ -90,4 +90,11 @@ class ProjectsController extends BaseController{
     return $this->respond($project, 200);
   }
 
+  public function upvotes($id){
+    $upvotes = $this->projectsModel->upvotes($id);
+
+    return $this->respondUpdated([
+      "upvotes" => $upvotes
+    ]);
+  }
 }
