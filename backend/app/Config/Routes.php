@@ -78,13 +78,14 @@ $routes->group('api', ['filter' => 'cors'], function($routes) {
         $routes->get('random/(:num)', 'ProjectsController::getRandomProjects/$1');
     });
 
-    $routes->group('projectsUser', function($routes){
+    $routes->group('projects-user', function($routes){
         $routes->get('/', 'projectsUserController::getAll');
         $routes->get('(:num)', 'ProjectsUserController::getById/$1');
+        $routes->get('collab/(:num)', 'ProjectsUserController::getCollaborators/$1');
         $routes->post('/', 'ProjectsUserController::create');
         $routes->delete('(:num)', 'ProjectsUserController::delete/$1');
         $routes->patch('(:num)', 'ProjectsUserController::edit/$1');
-    })
+    });
 
     $routes->group('auth', function ($routes) {
         $routes->post('login', 'AuthController::login');

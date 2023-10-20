@@ -5,21 +5,25 @@ namespace App\Controllers;
 use App\Models\FollowsModel;
 use CodeIgniter\API\ResponseTrait as APIResponseTrait;
 
-class FollowsController extends BaseController {
+class FollowsController extends BaseController
+{
   use APIResponseTrait;
 
   private $followsModel;
 
-  public function __construct() {
+  public function __construct()
+  {
     $this->followsModel = new FollowsModel();
   }
 
-  public function getAll() {
+  public function getAll()
+  {
     $follows = $this->followsModel->findAll();
     return $this->respond($follows, 200);
   }
 
-  public function getById($id) {
+  public function getById($id)
+  {
     $follow = $this->followsModel->find($id);
 
     if ($follow) {
@@ -29,7 +33,8 @@ class FollowsController extends BaseController {
     }
   }
 
-  public function create() {
+  public function create()
+  {
     $follow = $this->request->getJSON();
 
     $insertedFollow = $this->followsModel->insert([
@@ -45,7 +50,8 @@ class FollowsController extends BaseController {
     }
   }
 
-  public function delete($id) {
+  public function delete($id)
+  {
     if ($this->followsModel->delete($id)) {
       return $this->respondDeleted(['id_follow' => $id], 'Follow deleted!');
     } else {
@@ -53,25 +59,41 @@ class FollowsController extends BaseController {
     }
   }
 
-  public function getFollowersOfUser($id) {
-    $this->respond($this->followsModel->getFollowersOfUser($id));
+  public function getFollowersOfUser($id)
+  {
+    return $this->respond(
+      $this->followsModel->getFollowersOfUser($id)
+    );
   }
 
-  public function getFollowsOfUser($id) {
-    $this->respond($this->followsModel->getFollowsOfUser($id));
+  public function getFollowsOfUser($id)
+  {
+    return $this->respond($this->followsModel->getFollowsOfUser($id));
   }
 
-  public function getFollowCounts($id) {
+  public function getFollowCounts($id)
+  {
     return $this->respond([
       'followers' => $this->followsModel->getFollowersCount($id),
       'followings' => $this->followsModel->getFollowingsCount($id)
     ]);
   }
 
-  public function follow($id,$id_followed) {
-    $this->respond($this->followsModel->follow($id,$id_followed));
+  public function follow($id, $id_followed)
+  {
+    $this->followsModel->insert($id, $id_followed);
+
+    return $this->respond([
+      'message' => 'Followed successfully'
+    ], 200);
   }
-  public function unFollow($id) {
-    $this->respond($this->followsModel->unFollow($id,$id_followed));
+
+  public function unFollow($id)
+  {
+    $this->followsModel->delete($id);
+
+    return $this->respond([
+      'message' => 'Unfollowed successfully'
+    ], 200);
   }
 }

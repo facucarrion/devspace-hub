@@ -1,11 +1,15 @@
-GET http://localhost:8080/api/projectsUser
-
-###
-GET http://localhost:8080/api/projectsUser/3
+GET http://localhost:8080/api/projects-user
 
 ###
 
-POST http://localhost:8080/api/projectsUser
+GET http://localhost:8080/api/projects-user/collab/15
+
+###
+GET http://localhost:8080/api/projects-user/3
+
+###
+
+POST http://localhost:8080/api/projects-user
 
 {
     "id_project": "Project 1",
@@ -15,7 +19,7 @@ POST http://localhost:8080/api/projectsUser
 
 ###
 
-PATCH http://localhost:8080/api/projectsUser/3
+PATCH http://localhost:8080/api/projects-user/3
 
 {
     "description": "Project 16 description updated"
@@ -23,4 +27,4 @@ PATCH http://localhost:8080/api/projectsUser/3
 
 ###
 
-DELETE http://localhost:8080/api/projectsUser/3
+DELETE http://localhost:8080/api/projects-user/3
