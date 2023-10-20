@@ -3,15 +3,18 @@
 namespace App\Controllers;
 
 use App\Models\ProjectsModel;
+use App\Models\ProjectsUserModel;
 use CodeIgniter\API\ResponseTrait as APIResponseTrait;
 
 class ProjectsController extends BaseController{
   use APIResponseTrait;
 
   private $projectsModel;
+  private $projectsUserModel;
 
   public function __construct() {
     $this->projectsModel = new ProjectsModel();
+    $this->projectsUserModel = new ProjectsUserModel();
   }
 
   public function getAll() {
@@ -23,6 +26,7 @@ class ProjectsController extends BaseController{
     $project = $this->projectsModel->find($id);
 
     if ($project) {
+      $project['collaborators'] = $this->projectsUserModel->getCollaborators('15')->getResult();
       return $this->respond($project, 200);
     } else {
       return $this->failNotFound('No project found with id ' . $id, 404);

@@ -6,36 +6,45 @@ use CodeIgniter\Model;
 
 class ProjectsUserModel extends Model
 {
-    protected $table            = 'projects_user';
-    protected $primaryKey       = 'id_projects_user';
+  protected $table            = 'projects_user';
+  protected $primaryKey       = 'id_projects_user';
 
-    protected $returnType       = 'array';
-    
-    protected $useAutoIncrement = true;
-    protected $allowedFields    = [
-      'projects_user',
-      "id_project",
-      "id_user",
-      "is_editor"
-    ];
+  protected $returnType       = 'array';
 
-    public function getDatesOfProject($id){
-      return $this->db
-          ->table('projects_user')
-          ->select('p.*')
-          ->join('projects p', 'p.id_project = projects_user.id_project')
-          ->where('projects_user.id_project', $id)
-          ->get()
-          ->getResult();
-    }
+  protected $useAutoIncrement = true;
+  protected $allowedFields    = [
+    'projects_user',
+    "id_project",
+    "id_user",
+    "is_editor"
+  ];
 
-    public function getDatesOfUser($id){
-      return $this->db
-          ->table('projects_user')
-          ->select('u.*')
-          ->join('user u', 'u.id_user = projects_user.id_user')
-          ->where('projects_user.id_user', $id)
-          ->get()
-          ->getResult();
-    }
+  public function getDataOfProject($id)
+  {
+    return $this->db->query(
+      "SELECT p.* FROM projects_user pu
+        INNER JOIN projects p ON pu.id_project = p.id_project
+        WHERE pu.id_project = $id"
+    );
+  }
+
+  public function getDataOfUser($id)
+  {
+    return $this->db->query(
+      "SELECT u.* FROM projects_user pu
+            INNER JOIN users u ON pu.id_user = u.id_user
+            INNER JOIN projects p ON pu.id_project = p.id_project
+            WHERE pu.id_project = $id"
+    );
+  }
+
+  public function getCollaborators($id)
+  {
+    return $this->db->query(
+      "SELECT u.* FROM projects_user pu
+        INNER JOIN users u ON pu.id_user = u.id_user
+        INNER JOIN projects p ON pu.id_project = p.id_project
+        WHERE pu.id_project = $id"
+    );
+  }
 }

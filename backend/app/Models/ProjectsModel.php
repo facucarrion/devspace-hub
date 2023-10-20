@@ -32,7 +32,7 @@ class ProjectsModel extends Model{
         ->join('users u', 'u.id_user = projects.id_user_creator')
         ->where('projects.id_user_creator', $id)
         ->get()
-        -getResult();
+        ->getResult();
   }
   public function getRandomProjects($limit = 5) {
     $query = $this->db->query("SELECT * FROM projects ORDER BY RAND() LIMIT $limit");

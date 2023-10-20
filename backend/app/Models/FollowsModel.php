@@ -10,7 +10,7 @@ class FollowsModel extends Model
     protected $primaryKey       = 'id_follow';
 
     protected $returnType       = 'array';
-    
+
     protected $useAutoIncrement = true;
     protected $allowedFields    = [
         "id_follow",
@@ -22,7 +22,8 @@ class FollowsModel extends Model
     protected $dateFormat = 'datetime';
     protected $createdField  = 'created_at';
 
-    public function getFollowersOfUser($id) {
+    public function getFollowersOfUser($id)
+    {
         return $this->db
             ->table('follows')
             ->select('u.*')
@@ -32,52 +33,32 @@ class FollowsModel extends Model
             ->getResult();
     }
 
-    public function getFollowsOfUser($id) {
-        return $this->db
-            ->table('follows')
-            ->select('u.*')
-            ->join('users u', 'u.id_user = follows.id_user_followed')
-            ->where('follows.id_user_follower', $id)
-            ->get()
-            ->getResult();
+    public function getFollowsOfUser($id)
+    {
+        return $this->db->query(
+            "SELECT u.* FROM follows f
+            INNER JOIN users u ON u.id_user = f.id_user_followed
+            WHERE f.id_user_follower = $id"
+        )->getResult();
     }
 
-    public function getFollowersCount($id) {
-        return $this->db
-            ->table('follows')
-            ->select('count(*) as followers_count')
-            ->where('follows.id_user_followed', $id)
-            ->get()
-            ->getRow()
-            ->followers_count;
+    public function getFollowersCount($id)
+    {
+        return $this->db->query(
+            "SELECT count(*) as followers_count
+            FROM follows f
+            WHERE f.id_user_followed = $id"
+        )->getResultArray()[0]['followers_count'];
     }
 
-    public function getFollowingsCount($id) {
-        return $this->db
-            ->table('follows')
-            ->select('count(*) as following_count')
-            ->where('follows.id_user_follower', $id)
-            ->get()
-            ->getRow()
-            ->following_count;
+    public function getFollowingsCount($id)
+    {
+        return $this->db->query(
+            "SELECT count(*) as following_count
+            FROM follows f
+            WHERE f.id_user_follower = $id"
+        )->getResultArray()[0]['following_count'];
     }
-    public function follow($id,$id_followed) {
-        return $this->db
-            ->table('follows')
-            ->insert($id,$id_followed)
-            ->get()
-            ->getRow()
-            ->following;
-            
-    }
-    public function unFollow($id) {
-        return $this->db
-            ->table('follows')
-            ->delete("*")
-            ->where("follows.id_followed",$id)
-            ->get()
-            ->getRow()
-            ->unFollowing;
-            
-    }
+
+    
 }

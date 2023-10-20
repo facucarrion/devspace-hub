@@ -19,4 +19,8 @@ DELETE http://localhost:8080/api/follows/5
 
 ###
 
-GET http://localhost:8080/api/follows/test/1
+GET http://localhost:8080/api/follows/count/46
+
+###
+
+GET http://localhost:8080/api/follows/followers/46
