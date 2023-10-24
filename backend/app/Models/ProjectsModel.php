@@ -39,4 +39,13 @@ class ProjectsModel extends Model{
  
     return $query->getResultArray();
   }
+
+  public function upvotes($id){
+    return $this->db->query(
+      "UPDATE projects 
+        SET upvotes=upvotes+1 
+        WHERE id_project=$id"
+    )->getResultArray();
+  } 
+
 }

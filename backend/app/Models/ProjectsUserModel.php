@@ -47,4 +47,5 @@ class ProjectsUserModel extends Model
         WHERE pu.id_project = $id"
     );
   }
+  
 }
