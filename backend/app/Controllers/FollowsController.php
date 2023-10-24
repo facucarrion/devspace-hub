@@ -78,22 +78,4 @@ class FollowsController extends BaseController
       'followings' => $this->followsModel->getFollowingsCount($id)
     ]);
   }
-
-  public function follow($id, $id_followed)
-  {
-    $this->followsModel->insert($id, $id_followed);
-
-    return $this->respond([
-      'message' => 'Followed successfully'
-    ], 200);
-  }
-
-  public function unFollow($id)
-  {
-    $this->followsModel->delete($id);
-
-    return $this->respond([
-      'message' => 'Unfollowed successfully'
-    ], 200);
-  }
 }

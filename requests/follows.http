@@ -9,8 +9,8 @@ GET http://localhost:8080/api/follows/1
 POST http://localhost:8080/api/follows
 
 {
-    "id_user_followed": 1,
-    "id_user_follower": 4
+    "id_user_follower": 4,
+    "id_user_followed": 1
 }
 
 ###
