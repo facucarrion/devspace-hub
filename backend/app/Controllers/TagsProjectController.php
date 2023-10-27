@@ -5,21 +5,25 @@ namespace App\Controllers;
 use App\Models\TagsProjectModel;
 use CodeIgniter\API\ResponseTrait as APIResponseTrait;
 
-class TagsProjectController extends BaseController {
+class TagsProjectController extends BaseController
+{
   use APIResponseTrait;
 
   private $tagsProjectModel;
 
-  public function __construct() {
+  public function __construct()
+  {
     $this->tagsProjectModel = new TagsProjectModel();
   }
 
-  public function getAll() {
+  public function getAll()
+  {
     $tagsProject = $this->tagsProjectModel->findAll();
     return $this->respond($tagsProject, 200);
   }
 
-  public function getById($id) {
+  public function getById($id)
+  {
     $tagProject = $this->tagsProjectModel->find($id);
 
     if ($tagProject) {
@@ -29,7 +33,8 @@ class TagsProjectController extends BaseController {
     }
   }
 
-  public function create() {
+  public function create()
+  {
     $tagProject = $this->request->getJSON();
 
     $insertedTagProject = $this->tagsProjectModel->insert([
@@ -44,7 +49,8 @@ class TagsProjectController extends BaseController {
     }
   }
 
-  public function delete($id) {
+  public function delete($id)
+  {
     if ($this->tagsProjectModel->delete($id)) {
       return $this->respondDeleted(['id_tags_project' => $id], 'TagProject deleted!');
     } else {
