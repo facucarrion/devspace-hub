@@ -1,0 +1,16 @@
+get http://localhost:8080/api/project_links
+
+###
+
+get http://localhost:8080/api/project_links/1
+###
+
+post http://localhost:8080/api/project_links
+
+{
+    "id_project": "15",
+    "link": "https://www.google.com/"
+}
+###
+
+delete http://localhost:8080/api/project_links/1
