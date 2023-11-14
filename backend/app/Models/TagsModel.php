@@ -17,7 +17,4 @@ class TagsModel extends Model {
     'tag'
   ];
 
-  public function encontrarTodo() {
-    return $this->findAll();
-  }
 }

@@ -1,5 +1,7 @@
 ---
 import Footer from '@comp/Footer.svelte';
+import Header from '@comp/ui/Header.astro';
+
 export interface Props {
   title: string
 }
@@ -7,6 +9,13 @@ export interface Props {
 const {
   title
 } = Astro.props
+
+let isAuthed = true
+
+if(Astro.url.pathname === '/auth') {
+  isAuthed = false
+}
+
 ---
 
 <!DOCTYPE html>
@@ -17,6 +26,8 @@ const {
   <title>{title} - DevSpace HUB</title>
 </head>
 <body class="min-h-screen w-full flex flex-col items-center max-w-[800px] m-0">
+
+  {isAuthed && <Header />}
   <slot />
   <Footer />
 

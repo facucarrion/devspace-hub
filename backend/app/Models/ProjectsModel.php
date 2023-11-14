@@ -15,37 +15,66 @@ class ProjectsModel extends Model{
     'id_project',
     'title',
     'description',
+    'image',
     'url',
     'logo',
-    'upvotes',
-    'id_user_creator',
     'created_at'
   ];
 
   protected $dateFormat = 'datetime';
   protected $createdField  = 'created_at';
 
-  public function getDatesOfUserCreator($id){
-    return $this->db
-        ->table('projects') 
-        ->select('u.*')
-        ->join('users u', 'u.id_user = projects.id_user_creator')
-        ->where('projects.id_user_creator', $id)
-        ->get()
-        ->getResult();
+  public function getProject($id) {
+    return $this->db->query(
+      "SELECT p.*, u.username as creator_username, u.avatar as creator_avatar,count(pu.upvote) as upvotes
+      FROM projects p
+      INNER JOIN users u ON u.id_user = p.id_user_creator
+      INNER JOIN projects_user pu ON p.id_project = pu.id_project
+      WHERE p.id_project = $id"
+    )->getResultArray()[0];
   }
-  public function getRandomProjects($limit = 5) {
-    $query = $this->db->query("SELECT * FROM projects ORDER BY RAND() LIMIT $limit");
- 
+
+  public function getProjectsByCreator($id_creator) {
+    return $this->db->query(
+      "SELECT p.*, u.username as creator_username, u.avatar as creator_avatar,count(pu.upvote) as upvotes
+      FROM projects p
+      INNER JOIN users u ON u.id_user = p.id_user_creator
+      INNER JOIN projects_user pu ON p.id_project = pu.id_project
+      WHERE p.id_user_creator = $id_creator"
+    )->getResultArray();
+  }
+
+  public function getRandomProjects($limit, $ownUser) {
+    $query = $this->db->query(
+      "SELECT p.*, u.username as creator_username, u.avatar as creator_avatar,count(pu.upvote) as upvotes
+      FROM projects p
+      INNER JOIN users u ON u.id_user = p.id_user_creator
+      INNER JOIN projects_user pu ON p.id_project = pu.id_project
+      WHERE p.id_user_creator != $ownUser
+      ORDER BY RAND()
+      LIMIT $limit"
+    );
+
     return $query->getResultArray();
   }
 
-  public function upvotes($id){
+  public function searchProjects($name){
     return $this->db->query(
-      "UPDATE projects 
-        SET upvotes=upvotes+1 
-        WHERE id_project=$id"
+      "SELECT p.*, u.username as creator_username, u.avatar as creator_avatar,count(pu.upvote) as upvotes
+      FROM projects p
+      INNER JOIN users u ON u.id_user = p.id_user_creator
+      INNER JOIN projects_user pu ON p.id_project = pu.id_project
+      WHERE p.title LIKE '%$name%'"
     )->getResultArray();
-  } 
+  }
 
+  public function searchProjectsByTag($tag){
+    return $this->db->query(
+      "SELECT p.*, u.username as creator_username, u.avatar as creator_avatar,count(pu.upvote) as upvotes
+      FROM projects p
+      INNER JOIN users u ON u.id_user = p.id_user_creator
+      INNER JOIN projects_user pu ON p.id_project = pu.id_project
+      WHERE p.title LIKE '$tag'"
+    )->getResultArray();
+  }
 }

@@ -25,7 +25,19 @@ class UsersModel extends Model {
   protected $createdField = 'created_at';
 
   public function getRandomUsers($limit, $ownUser) {
-    $query = $this->db->query("SELECT * FROM users WHERE id_user != $ownUser ORDER BY RAND() LIMIT $limit");
+    $query = $this->db->query(
+      "SELECT * FROM users 
+      WHERE id_user != $ownUser ORDER BY 
+      RAND() LIMIT $limit");
+
+    return $query->getResultArray();
+  }
+
+  public function searchUsers($name, $ownUser){
+    $query = $this->db->query(
+      "SELECT u.username, u.avatar, u.display_name FROM users u
+       WHERE username LIKE '%$name%' AND id_user != $ownUser"
+    );
 
     return $query->getResultArray();
   }
