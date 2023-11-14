@@ -1,11 +1,11 @@
-get http://localhost:8080/api/user_links
+GET http://localhost:8080/api/user_links
 
 ###
 
-get http://localhost:8080/api/user_links/1
+GET  http://localhost:8080/api/user_links/10
 ###
 
-post http://localhost:8080/api/user_links
+POST http://localhost:8080/api/user_links
 
 {
     "id_user": "15",
@@ -13,4 +13,4 @@ post http://localhost:8080/api/user_links
 }
 ###
 
-delete http://localhost:8080/api/user_links/1
+DELETE http://localhost:8080/api/user_links/1

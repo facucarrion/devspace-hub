@@ -15,8 +15,6 @@
   	} else {
     	location.href = 'http://localhost:3000/auth'
   	}
-
-		console.log(response)
 	}
 </script>
 

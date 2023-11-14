@@ -1,5 +1,4 @@
 import { jwtVerify } from "jose";
-import { getUserToken } from "../helpers/getUserToken";
 
 interface Props {
   token: string;

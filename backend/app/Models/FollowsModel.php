@@ -24,13 +24,11 @@ class FollowsModel extends Model
 
     public function getFollowersOfUser($id)
     {
-        return $this->db
-            ->table('follows')
-            ->select('u.*')
-            ->join('users u', 'u.id_user = follows.id_user_follower')
-            ->where('follows.id_user_followed', $id)
-            ->get()
-            ->getResult();
+        return $this->db->query(
+            "SELECT u.* FROM follows f
+            INNER JOIN users u ON u.id_user = f.id_user_follower
+            WHERE f.id_user_followed = $id"
+        )->getResultArray();
     }
 
     public function getFollowsOfUser($id)
@@ -39,7 +37,7 @@ class FollowsModel extends Model
             "SELECT u.* FROM follows f
             INNER JOIN users u ON u.id_user = f.id_user_followed
             WHERE f.id_user_follower = $id"
-        )->getResult();
+        )->getResultArray();
     }
 
     public function getFollowersCount($id)

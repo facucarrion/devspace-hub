@@ -1,7 +1,7 @@
-GET http://localhost:8080/api/projects
+GET http://localhost:8080/api/projects/
 
 ###
-GET http://localhost:8080/api/projects/15
+GET http://localhost:8080/api/projects/22
 
 ###
 
@@ -27,3 +27,9 @@ DELETE http://localhost:8080/api/projects/3
 
 ###
 PATCH http://localhost:8080/api/projects/upvotes/15
+
+###
+GET http://localhost:8080/api/projects/search/w
+
+###
+GET http://localhost:8080/api/projects/collab/46

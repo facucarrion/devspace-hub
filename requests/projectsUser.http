@@ -28,3 +28,11 @@ PATCH http://localhost:8080/api/projects-user/3
 ###
 
 DELETE http://localhost:8080/api/projects-user/3
+
+###
+GET http://localhost:8080/api/project-users/getupvote
+
+{
+    "id_project": 19,
+    "id_user": 46
+}

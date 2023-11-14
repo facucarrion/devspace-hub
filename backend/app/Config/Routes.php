@@ -18,18 +18,15 @@ $routes->group('api', ['filter' => 'cors'], function ($routes) {
     });
 
     $routes->group('follows', function ($routes) {
-        $routes->get('/', 'FollowsController::getAll');
-        $routes->get('(:num)', 'FollowsController::getById/$1');
-        $routes->post('/', 'FollowsController::create');
-        $routes->delete('(:num)', 'FollowsController::delete/$1');
-        $routes->get('followers/(:num)', 'FollowsController::getFollowersOfUser/$1');
-        $routes->get('follows/(:num)', 'FollowsController::getFollowsOfUser/$1');
-        $routes->get('count/(:num)', 'FollowsController::getFollowCounts/$1');
         $routes->post('follow/(:num)', 'FollowsController::follow/$1');
         $routes->delete('unfollow/(:num)', 'FollowsController::unFollow/$1');
+        $routes->get('count/(:num)', 'FollowsController::getFollowCounts/$1');
+
+        $routes->get('followers/(:num)', 'FollowsController::getFollowersOfUser/$1');
+        $routes->get('follows/(:num)', 'FollowsController::getFollowsOfUser/$1');
     });
 
-    $routes->group('tag_projects', function ($routes) {
+    $routes->group('tag-projects', function ($routes) {
         $routes->get('/', 'TagsProjectController::getAll');
         $routes->get('(:num)', 'TagsProjectController::getById/$1');
         $routes->post('/', 'TagsProjectController::create');
@@ -44,25 +41,26 @@ $routes->group('api', ['filter' => 'cors'], function ($routes) {
         $routes->delete('(:num)', 'UsersController::delete/$1');
         $routes->put('(:num)', 'UsersController::edit/$1');
         $routes->get('random/(:num)', 'UsersController::getRandomUsers/$1');
+        $routes->get('search/(:any)', 'UsersController::searchUsers/$1/$2');
     });
 
     $routes->group('projects', function ($routes) {
         $routes->get('/', 'ProjectsController::getAll');
         $routes->get('(:num)', 'ProjectsController::getById/$1');
         $routes->post('/', 'ProjectsController::create');
-        $routes->delete('(:num)', 'ProjectsController::delete/$1');
         $routes->patch('(:num)', 'ProjectsController::edit/$1');
+        $routes->delete('(:num)', 'ProjectsController::delete/$1');
+
         $routes->get('random/(:num)', 'ProjectsController::getRandomProjects/$1');
-        $routes->patch('upvotes/(:num)', 'ProjectsController::upvotes/$1');
+
+        $routes->get('search/(:any)', 'ProjectsController::searchProjects/$1');
+
+        $routes->get('collab/(:num)', 'ProjectsController::getProjectsByCollaborator/$1');
+        $routes->get('creator/(:num)', 'ProjectsController::getProjectsByCreator/$1');
     });
 
-    $routes->group('projects-user', function ($routes) {
-        $routes->get('/', 'projectsUserController::getAll');
-        $routes->get('(:num)', 'ProjectsUserController::getById/$1');
-        $routes->get('collab/(:num)', 'ProjectsUserController::getCollaborators/$1');
-        $routes->post('/', 'ProjectsUserController::create');
-        $routes->delete('(:num)', 'ProjectsUserController::delete/$1');
-        $routes->patch('(:num)', 'ProjectsUserController::edit/$1');
+    $routes->group('project-users', function ($routes) {
+        $routes->get('getupvote', 'ProjectUsersController::checkUpvote');
     });
 
     $routes->group('auth', function ($routes) {
@@ -70,21 +68,4 @@ $routes->group('api', ['filter' => 'cors'], function ($routes) {
         $routes->post('register', 'AuthController::register');
     });
 
-    $routes->group('images', function ($routes) {
-        $routes->post('/', 'ImagesController::loadImage');
-    });
-
-    $routes->group('user_links', function ($routes) {
-        $routes->get('/', 'UserLinksController::getAll');
-        $routes->get('(:num)', 'UserLinksController::getById/$1');
-        $routes->post('/', 'UserLinksController::create');
-        $routes->delete('(:num)', 'UserLinksController::delete/$1');
-    });
-
-    $routes->group('project_links', function ($routes) {
-        $routes->get('/', 'ProjectLinksController::getAll');
-        $routes->get('(:num)', 'ProjectLinksController::getById/$1');
-        $routes->post('/', 'ProjectLinksController::create');
-        $routes->delete('(:num)', 'ProjectLinksController::delete/$1');
-    });
 });

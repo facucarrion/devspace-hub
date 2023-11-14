@@ -50,9 +50,16 @@ class AuthController extends BaseController {
     $password = $this->request->getPost('password');
     $repeatPassword = $this->request->getPost('repeat_password');
 
-    $newAvatarName = $avatar->getRandomName();
-    $uploads = 'img/avatars';
-    $avatar->move($uploads, $newAvatarName);
+    $uploadPath = null;
+
+    if(!$avatar->isValid()) {
+      $avatar = NULL;
+    } else {
+      $newAvatarName = $avatar->getRandomName();
+      $uploads = 'img/avatars';
+      $avatar->move($uploads, $newAvatarName);
+      $uploadPath = base_url($uploads . '/' . $newAvatarName);
+    }
 
     if($password !== $repeatPassword) {
       return $this->fail('Password confirmation does not match', 400);
@@ -69,7 +76,7 @@ class AuthController extends BaseController {
       'username' => $username,
       'display_name' => $displayName,
       'email' => $email,
-      'avatar' => base_url($uploads . '/' . $newAvatarName),
+      'avatar' => $uploadPath,
       'password' => $hashedPassword,
       'created_at' => date('Y-m-d H:i:s')
     ]);

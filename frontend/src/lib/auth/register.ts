@@ -8,7 +8,10 @@ export async function register(formData: FormData) {
 
   const data = await response.json()
 
-  const loginResponse = await login({ email: data.email, password: data.password })
+  const loginResponse = await login({
+    email: formData.get('email') as string,
+    password: formData.get('password') as string
+  })
     .then(res => res)
     .catch(err => err)
 
