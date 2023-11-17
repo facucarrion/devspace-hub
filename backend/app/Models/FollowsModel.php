@@ -22,6 +22,13 @@ class FollowsModel extends Model
     protected $dateFormat = 'datetime';
     protected $createdField  = 'created_at';
 
+    public function getFollows($id_user_followed, $id_user_follower)
+    {
+        return $this->db->query(
+            "SELECT * FROM follows
+            WHERE id_user_followed=$id_user_followed AND id_user_follower=$id_user_follower"
+        )->getResultArray();
+    }
     public function getFollowersOfUser($id)
     {
         return $this->db->query(
@@ -57,6 +64,4 @@ class FollowsModel extends Model
             WHERE f.id_user_follower = $id"
         )->getResultArray()[0]['following_count'];
     }
-
-    
 }

@@ -24,6 +24,9 @@ $routes->group('api', ['filter' => 'cors'], function ($routes) {
 
         $routes->get('followers/(:num)', 'FollowsController::getFollowersOfUser/$1');
         $routes->get('follows/(:num)', 'FollowsController::getFollowsOfUser/$1');
+
+        $routes->post('check', 'FollowsController::isFollow');
+        $routes->post('/', 'FollowsController::follow');
     });
 
     $routes->group('tag-projects', function ($routes) {
@@ -66,6 +69,11 @@ $routes->group('api', ['filter' => 'cors'], function ($routes) {
     $routes->group('auth', function ($routes) {
         $routes->post('login', 'AuthController::login');
         $routes->post('register', 'AuthController::register');
+    });
+
+    $routes->group('upvotes', function ($routes) {
+        $routes->post('/', 'ProjectUsersController::upvote');
+        $routes->post('check', 'ProjectUsersController::isUpvoted');
     });
 
 });

@@ -1,6 +1,8 @@
 ---
 import Layout from '@layout/RootLayout.astro'
 import { getProject } from '@lib/projects/getProject'
+import UpvoteButton from '@comp/ui/UpvoteButton.svelte'
+import DeleteProject from '@comp/ui/DeleteProject.svelte'
 
 const { project_id } = Astro.params
 
@@ -9,8 +11,6 @@ if (!project_id) {
 }
 
 const project = await getProject(project_id as string)
-
-console.log(project)
 ---
 
 <Layout title={project.title}>
@@ -26,12 +26,12 @@ console.log(project)
           <h1 class='text-2xl font-bold'>{project.title}</h1>
           <a class="underline" href={project.url}>{project.url}</a>  
           <span class="flex items-center gap-2">
-            <img class="w-8 rounded-full" src={project.creator_avatar} alt={project.creator_username} />
+            <img class="w-8 rounded-full" src={project.creator_avatar ?? 'http://localhost:8080/img/placeholders/avatar.jpg'} alt={project.creator_username} />
             <a class="underline" href={`http://localhost:3000/users/${project.creator_username}`}>{project.creator_username}</a>
           </span>
         </div>
       </div>
-      <p class="text-2xl">{project.upvotes}</p>
+      <UpvoteButton id_project={project.id_project} upvotes={project.upvotes} client:only />
     </header>
 
     <p class='flex items-center text-[1.2rem]'>{project.description}</p>
@@ -45,10 +45,13 @@ console.log(project)
     <section class="flex flex-wrap">
       {project.collaborators.map((item: any) => (
         <picture class="aspect-square h-12 w-12 rounded-full overflow-hidden">
-          <img class="h-full" src={item.avatar} alt={item.username} title={item.username} />
+          <img class="h-full" src={item.avatar ?? 'http://localhost:8080/img/placeholders/avatar.jpg'} alt={item.username} title={item.username} />
   
         </picture>
       ))}
     </section>
+    <footer class="flex w-100 justify-start">
+      <DeleteProject client:only id_project={project.id_project} id_creator={project.creator_id} />
+    </footer>
   </main>
 </Layout>

@@ -11,8 +11,7 @@
 <section class="flex w-full justify-between items-center h-48 mb-6">
   {#await usersPromise then users}
     {#each users as user}
-      <a
-        href={`/users/${user.username}`}
+      <div
         class="h-full relative min-w-[150px] rounded-md flex flex-col items-center justify-between p-2 backdrop-blur-md bg-[#14141466]"
       >
         <picture class="h-20 w-20 rounded-full flex justify-center overflow-hidden">
@@ -23,11 +22,13 @@
           />
         </picture>
 
-        <h3 class="text-lg text-white font-bold text-opacity-70">
-          {user.username}
-        </h3>
-        <FollowButton variant="full" />
-      </a>
+        <a href={`/users/${user.username}`}>
+          <h3 class="text-lg text-white font-bold text-opacity-70">
+            {user.username}
+          </h3>
+        </a>
+        <FollowButton id_user={user.id_user} variant="full" />
+      </div>
     {/each}
   {/await}
 </section>

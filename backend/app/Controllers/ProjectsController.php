@@ -124,11 +124,20 @@ class ProjectsController extends BaseController
 
   public function delete($id)
   {
-    if ($this->projectsModel->delete($id)) {
-      return $this->respondDeleted(['id_project' => $id], 'Project deleted!');
-    } else {
-      return $this->fail($this->projectsModel->errors(), 400);
+
+    $projectToDelete = $this->projectsModel->find($id);
+
+    if (!$projectToDelete) {
+      return $this->failNotFound('No project found with id ' . $id, 404);
     }
+    
+    $this->projectLinksModel->deleteProjectLinks($id);
+    $this->projectUsersModel->deleteProjectUsers($id);
+    
+    return $this->respond(['aia']);
+    $this->projectsModel->delete($id);
+
+    return $this->respondDeleted($projectToDelete, 'Project deleted!');
   }
 
   public function getRandomProjects($ownUser)
