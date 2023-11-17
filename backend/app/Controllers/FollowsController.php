@@ -78,4 +78,41 @@ class FollowsController extends BaseController
       'followings' => $this->followsModel->getFollowingsCount($id)
     ]);
   }
+
+  public function isFollow(){
+    $json = $this->request->getJSON();
+
+    $id_user_followed = $json->id_user_followed;
+    $id_user_follower = $json->id_user_follower;
+
+    $follow = $this->followsModel->getFollows($id_user_followed, $id_user_follower);
+
+    if(count($follow) == 0){
+      return $this->respond(["isFollow" => false]);
+    } else {
+      return $this->respond(["isFollow" => true]);
+    }
+  }
+
+  public function follow(){
+    $json = $this->request->getJSON();
+
+    $id_user_followed = $json->id_user_followed;
+    $id_user_follower = $json->id_user_follower;
+
+    $follow = $this->followsModel->getFollows($id_user_followed, $id_user_follower);
+
+    if(count($follow) == 0){
+      $this->followsModel->insert([
+        'id_user_followed' => $id_user_followed,
+        'id_user_follower' => $id_user_follower,
+        'created_at' => date('Y-m-d H:i:s')
+      ]);
+
+      return $this->respond(["followers" => $this->followsModel->getFollowersCount($id_user_followed)]);
+    } else {
+      $this->followsModel->delete($follow[0]["id_follow"]);
+      return $this->respond(["followers" => $this->followsModel->getFollowersCount($id_user_followed)]);
+    }
+  }
 }

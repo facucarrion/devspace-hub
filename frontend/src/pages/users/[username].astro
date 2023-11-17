@@ -41,14 +41,12 @@ if (user?.status === 404) {
         <UserName username={user.username} display_name={user.display_name} />
       </div>
       <EditProfileButton client:only userInPageId={user.id_user} />
-      <FollowCount client:load counts={followCount}  />
-      <FollowButton client:load />
+      <FollowCount client:load counts={followCount} />
+      <FollowButton client:only id_user={user.id_user} />
     </header>
     
     <RandomUsers client:only />
-
     <UserProjects user_id={user.id_user} client:only />
-
     <CollaboratorProjects user_id={user.id_user} client:only />
   </main>
 </Layout>

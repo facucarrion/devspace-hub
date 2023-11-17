@@ -21,20 +21,25 @@ class ProjectUsersModel extends Model
     "upvote"
   ];
 
-  public function getCollaborators($id)
-  {
+  public function getProjectUsers($id_project, $id_user) {
     return $this->db->query(
-      "SELECT u.username, u.avatar, pu.is_editor FROM projects_user pu
+      "SELECT * FROM project_users
+      WHERE id_project=$id_project AND id_user=$id_user"
+    )->getResultArray();
+  }
+
+  public function getCollaborators($id) {
+    return $this->db->query(
+      "SELECT u.username, u.avatar, pu.is_editor FROM project_users pu
       INNER JOIN users u ON pu.id_user = u.id_user
       INNER JOIN projects p ON pu.id_project = p.id_project
-      WHERE pu.id_project = $id"
+      WHERE pu.id_project = $id AND pu.id_rol = 1"
     )->getResultArray();
   }
   
-  public function getCollaboratorsWhitLimit($id, $limit)
-  {
+  public function getCollaboratorsWhitLimit($id, $limit) {
     return $this->db->query(
-      "SELECT u.username,u.avatar FROM projects_user pu
+      "SELECT u.username,u.avatar FROM project_users pu
       INNER JOIN users u ON pu.id_user = u.id_user
       INNER JOIN projects p ON pu.id_project = p.id_project
       WHERE pu.id_project = $id
@@ -63,10 +68,18 @@ class ProjectUsersModel extends Model
   }
 
   public function isUpvoted($id_project, $id_user){
-    return $this->db->query(
-      "SELECT *
-      FROM projects_user 
+    $query = $this->db->query(
+      "SELECT * FROM project_users 
       WHERE id_project=$id_project AND id_user=$id_user"
     )->getResultArray();
+
+    return $query;
+  }
+
+  public function deleteProjectUsers($id_project){
+    $this->db->query(
+      "DELETE FROM project_users 
+      WHERE id_project=$id_project"
+    );
   }
 }

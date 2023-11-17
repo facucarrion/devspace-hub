@@ -73,7 +73,7 @@ class ProjectUsersController extends BaseController
   public function delete($id)
   {
     if ($this->projectUsersModel->delete($id)) {
-      return $this->respondDeleted(['id_projects_user' => $id], 'ProjectsUser deleted!');
+      return $this->respondDeleted(['id_project_users' => $id], 'ProjectsUser deleted!');
     } else {
       return $this->fail($this->projectUsersModel->errors(), 400);
     }
@@ -94,58 +94,54 @@ class ProjectUsersController extends BaseController
     $collaborators = $this->projectUsersModel->getCollaboratorsWhitLimit($id, $limit);
     return $this->respond($collaborators, 200);
   }
-  public function upvotes($id)
-  {
-    $upvotes = $this->projectsModel->upvotes($id);
-
-    if ($upvotes) {
-      return $this->respondUpdated([
-        "upvotes" => $this->projectsModel->find($id)['upvotes']
-      ]);
-    } else {
-      return $this->fail([
-        "upvotes" => $this->projectsModel->errors()
-      ]);
-    }
-  }
   
-  public function unvotes($id)
+  
+  public function isUpvoted()
   {
-    $unvotes = $this->projectsModel->unvotes($id);
+    $json = $this->request->getJson();
 
-    if ($unvotes) {
-      return $this->respondUpdated([
-        "upvotes" => $this->projectsModel->find($id)['upvotes']
-      ]);
+    $id_project = $json->id_project;
+    $id_user = $json->id_user;
+
+    $projectUsers = $this->projectUsersModel->getProjectUsers($id_project, $id_user);
+    
+    if(count($projectUsers) == 0 || $projectUsers[0]["upvote"] == 0) {
+      return $this->respond(["isUpvoted" => false]);
     } else {
-      return $this->fail([
-        "upvotes" => $this->projectsModel->errors()
-      ]);
+      return $this->respond(["isUpvoted" => true]);
     }
   }
 
-  public function checkUpvote()
+  public function upvote()
   {
     $json = $this->request->getJSON();
 
     $id_project = $json->id_project;
     $id_user = $json->id_user;
 
-    $projectUsers = $this->projectUsersModel->isUpvoted($id_project, $id_user);
-    
-    $isUpvoted = false;
+    $projectUsers = $this->projectUsersModel->getProjectUsers($id_project, $id_user);
+
 
     if(count($projectUsers) == 0) {
       $this->projectUsersModel->insert([
-        'id_project' => $id_project,
-        'id_user'    => $id_user,
-        'upvotes'    => 1
+        "id_rol" => 3,
+        "id_project" => $id_project,
+        "id_user" => $id_user,
+        "is_editor" => 0,
+        "upvote" => 0
       ]);
-    } else {
-      $isUpvoted = true;
     }
 
-    return $this->respond($projectUsers, 200);
-  }
+    if($projectUsers[0]["upvote"] == 0) {
+      $this->projectUsersModel->update($projectUsers[0]["id_project_user"], [
+        "upvote" => 1
+      ]);
+    } else {
+      $this->projectUsersModel->update($projectUsers[0]["id_project_user"], [
+        "upvote" => 0
+      ]);
+    }
 
+    return $this->respond(["upvotes" => $this->projectsModel->getProject($projectUsers[0]["id_project"])["upvotes"]]);
+  }
 }
