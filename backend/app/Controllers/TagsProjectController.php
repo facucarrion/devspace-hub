@@ -57,4 +57,15 @@ class TagsProjectController extends BaseController
       return $this->fail($this->tagsProjectModel->errors(), 400);
     }
   }
+
+  public function insertTags(){
+    $tags = $this->request->getJson();
+
+    for($i = 0; $i < count($tags); $i++){
+      $this->tagsProjectModel->insert([
+        'id_project' => $tags[$i]->id_project,
+        'id_tag' => $tags[$i]->id_tag
+      ]);
+    }
+  }
 }
