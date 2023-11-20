@@ -64,4 +64,17 @@ class TagsController extends BaseController {
       return $this->fail($this->tagsModel->errors(), 400);
     }
   }
+
+  public function isTagExist($name){
+   
+    $tag = $this->tagsModel->getTagIdByName($name);
+
+    if($tag == null || $tag == false){
+      $tag = $this->tagsModel->insert([
+        'tag' => $name
+      ]);
+      $tag = $this->tagsModel->getTagIdByName($name);
+    }
+    return $this->respond($tag, 200);
+  }
 }
