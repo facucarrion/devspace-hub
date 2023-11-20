@@ -15,6 +15,7 @@ $routes->group('api', ['filter' => 'cors'], function ($routes) {
         $routes->post('/', 'TagsController::create');
         $routes->delete('(:num)', 'TagsController::delete/$1');
         $routes->put('(:num)', 'TagsController::edit/$1');
+        $routes->post('check', 'TagsController::isTagExist');
     });
 
     $routes->group('follows', function ($routes) {

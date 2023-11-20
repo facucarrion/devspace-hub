@@ -33,7 +33,7 @@ class TagsProjectController extends BaseController
     }
   }
 
-  public function create()
+  public function create()  
   {
     $tagProject = $this->request->getJSON();
 
