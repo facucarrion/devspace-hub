@@ -35,6 +35,7 @@ $routes->group('api', ['filter' => 'cors'], function ($routes) {
         $routes->get('(:num)', 'TagsProjectController::getById/$1');
         $routes->post('/', 'TagsProjectController::create');
         $routes->delete('(:num)', 'TagsProjectController::delete/$1');
+        $routes->post('insert', 'TagsProjectController::insertTags');
     });
 
     $routes->group('users', function ($routes) {
