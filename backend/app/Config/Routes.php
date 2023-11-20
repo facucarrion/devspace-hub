@@ -67,6 +67,7 @@ $routes->group('api', ['filter' => 'cors'], function ($routes) {
     $routes->group('project-users', function ($routes) {
         $routes->get('getupvote', 'ProjectUsersController::checkUpvote');
         $routes->get('createCollaborator/(:num)', 'ProjectUsersController::createCollaborator/$1/$2/$3');
+        $routes->get('iseditor', 'ProjectUsersController::isEditor');
     });
 
     $routes->group('auth', function ($routes) {

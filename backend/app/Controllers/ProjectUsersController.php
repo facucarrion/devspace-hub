@@ -161,4 +161,21 @@ class ProjectUsersController extends BaseController
 
     return $this->respond(["upvotes" => $this->projectsModel->getProject($projectUsers[0]["id_project"])["upvotes"]]);
   }
+
+  public function isEditor()
+  {
+    $json = $this->request->getJson();
+
+    $id_project = $json->id_project;
+    $id_user = $json->id_user;
+
+    $projectUsers = $this->projectUsersModel->getProjectUsers($id_project, $id_user);
+
+    if(count($projectUsers) == 0 || $projectUsers[0]["is_editor"] == 0) {
+      return $this->respond(["isEditor" => false]);
+    } else {
+      return $this->respond(["isEditor" => true]);
+    }
+  }
+
 }

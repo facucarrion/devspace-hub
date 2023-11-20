@@ -66,15 +66,19 @@ class TagsController extends BaseController {
   }
 
   public function isTagExist($name){
-   
-    $tag = $this->tagsModel->getTagIdByName($name);
+    $tags = $this->request->getJson();
 
-    if($tag == null || $tag == false){
-      $tag = $this->tagsModel->insert([
-        'tag' => $name
-      ]);
-      $tag = $this->tagsModel->getTagIdByName($name);
-    }
-    return $this->respond($tag, 200);
+    for($i = 0; $i < count($tags); $i++){
+
+      $tag = $this->tagsModel->getTagIdByName($tags[$i]->tag);
+
+      if($tag == null || $tag == false){
+        $tag = $this->tagsModel->insert([
+          'tag' => $name
+        ]);
+        $tag = $this->tagsModel->getTagIdByName($name);
+      }
+  }
+  return $this->respond($tag, 200);
   }
 }
