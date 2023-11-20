@@ -10,10 +10,10 @@ const {
   title
 } = Astro.props
 
-let isAuthed = true
+let isAuthPage = true
 
 if(Astro.url.pathname === '/auth') {
-  isAuthed = false
+  isAuthPage = false
 }
 
 ---
@@ -24,10 +24,11 @@ if(Astro.url.pathname === '/auth') {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{title} - DevSpace HUB</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg">
 </head>
 <body class="min-h-screen w-full flex flex-col items-center max-w-[800px] m-0">
 
-  {isAuthed && <Header />}
+  {isAuthPage && <Header />}
   <slot />
   <Footer />
 

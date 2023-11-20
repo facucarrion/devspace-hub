@@ -21,14 +21,16 @@ class ProjectUsersModel extends Model
     "upvote"
   ];
 
-  public function getProjectUsers($id_project, $id_user) {
+  public function getProjectUsers($id_project, $id_user)
+  {
     return $this->db->query(
       "SELECT * FROM project_users
       WHERE id_project=$id_project AND id_user=$id_user"
     )->getResultArray();
   }
 
-  public function getCollaborators($id) {
+  public function getCollaborators($id)
+  {
     return $this->db->query(
       "SELECT u.username, u.avatar, pu.is_editor FROM project_users pu
       INNER JOIN users u ON pu.id_user = u.id_user
@@ -36,8 +38,9 @@ class ProjectUsersModel extends Model
       WHERE pu.id_project = $id AND pu.id_rol = 1"
     )->getResultArray();
   }
-  
-  public function getCollaboratorsWhitLimit($id, $limit) {
+
+  public function getCollaboratorsWithLimit($id, $limit)
+  {
     return $this->db->query(
       "SELECT u.username,u.avatar FROM project_users pu
       INNER JOIN users u ON pu.id_user = u.id_user
@@ -47,7 +50,8 @@ class ProjectUsersModel extends Model
     )->getResultArray();
   }
 
-  public function getProjectsByCreator($id) {
+  public function getProjectsByCreator($id)
+  {
     return $this->db->query(
       "SELECT p.*, u.username as creator_username, u.avatar as creator_avatar
       FROM projects p
@@ -56,8 +60,9 @@ class ProjectUsersModel extends Model
       WHERE pu.id_rol = 2 AND pu.id_user = $id"
     )->getResultArray();
   }
-  
-  public function getProjectsByCollaborator($id) {
+
+  public function getProjectsByCollaborator($id)
+  {
     return $this->db->query(
       "SELECT p.*, u.username as creator_username, u.avatar as creator_avatar
       FROM projects p
@@ -67,16 +72,16 @@ class ProjectUsersModel extends Model
     )->getResultArray();
   }
 
-  public function isUpvoted($id_project, $id_user){
-    $query = $this->db->query(
+  public function isUpvoted($id_project, $id_user)
+  {
+    return $this->db->query(
       "SELECT * FROM project_users 
       WHERE id_project=$id_project AND id_user=$id_user"
     )->getResultArray();
-
-    return $query;
   }
 
-  public function deleteProjectUsers($id_project){
+  public function deleteProjectUsers($id_project)
+  {
     $this->db->query(
       "DELETE FROM project_users 
       WHERE id_project=$id_project"

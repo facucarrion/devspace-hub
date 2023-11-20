@@ -105,11 +105,11 @@ class UsersController extends BaseController
     return $this->respond($users, 200);
   }
 
-  public function searchUsers($name)
+  public function searchUsers()
   {
-    $ownUser = $this->request->getVar('own_user') ?? 0;
+    $name = $this->request->getVar('q');
 
-    $users = $this->usersModel->searchUsers($name, $ownUser);
+    $users = $this->usersModel->searchUsers($name);
 
     return $this->respond($users, 200);
   }

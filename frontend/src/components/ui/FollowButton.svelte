@@ -37,7 +37,7 @@
   let following: 'following' | 'notFollowing' = 'notFollowing'
 
   $: {
-    const upvotedPromise = isFollowing(
+    isFollowing(
       id_user,
       localStorage.getItem('user_id') as string
     ).then(res => {

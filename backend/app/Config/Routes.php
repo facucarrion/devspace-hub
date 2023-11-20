@@ -45,7 +45,7 @@ $routes->group('api', ['filter' => 'cors'], function ($routes) {
         $routes->delete('(:num)', 'UsersController::delete/$1');
         $routes->put('(:num)', 'UsersController::edit/$1');
         $routes->get('random/(:num)', 'UsersController::getRandomUsers/$1');
-        $routes->get('search/(:any)', 'UsersController::searchUsers/$1/$2');
+        $routes->get('search', 'UsersController::searchUsers');
     });
 
     $routes->group('projects', function ($routes) {
@@ -57,7 +57,7 @@ $routes->group('api', ['filter' => 'cors'], function ($routes) {
 
         $routes->get('random/(:num)', 'ProjectsController::getRandomProjects/$1');
 
-        $routes->get('search/(:any)', 'ProjectsController::searchProjects/$1');
+        $routes->get('search', 'ProjectsController::searchProjects');
 
         $routes->get('collab/(:num)', 'ProjectsController::getProjectsByCollaborator/$1');
         $routes->get('creator/(:num)', 'ProjectsController::getProjectsByCreator/$1');
@@ -77,5 +77,4 @@ $routes->group('api', ['filter' => 'cors'], function ($routes) {
         $routes->post('/', 'ProjectUsersController::upvote');
         $routes->post('check', 'ProjectUsersController::isUpvoted');
     });
-
 });
