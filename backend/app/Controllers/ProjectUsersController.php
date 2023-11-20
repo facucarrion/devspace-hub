@@ -53,6 +53,23 @@ class ProjectUsersController extends BaseController
     }
   }
 
+  public function createCollaborator($id_project, $id_user,$is_editor)
+  {
+    $newProjectsUser = $this->projectUsersModel->insert([
+      'id_rol'     => 1, 
+      'id_project' => $id_project,
+      'id_user'    => $id_user,
+      'is_editor'  => $is_editor,
+      'upvote'     => 0
+    ]);
+
+    if ($newProjectsUser) {
+      return $this->respondCreated($this->projectUsersModel->find($newProjectsUser), 'Collaborator created!');
+    } else {
+      return $this->fail($this->projectUsersModel->errors(), 400);
+    }
+  }
+
   public function edit($id)
   {
     $projectsUser = $this->request->getJSON();
