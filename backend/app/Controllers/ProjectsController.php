@@ -53,7 +53,7 @@ class ProjectsController extends BaseController
     $logoUploadPath = null;
     $imageUploadPath = null;
 
-    if(!$logo->isValid()) {
+    if (!$logo->isValid()) {
       $logo = NULL;
     } else {
       $newLogoName = $logo->getRandomName();
@@ -62,7 +62,7 @@ class ProjectsController extends BaseController
       $logoUploadPath = base_url($logoUploads . '/' . $newLogoName);
     }
 
-    if(!$image->isValid()) {
+    if (!$image->isValid()) {
       $image = NULL;
     } else {
       $newImageName = $image->getRandomName();
@@ -87,7 +87,7 @@ class ProjectsController extends BaseController
       'upvote' => false
     ]);
 
-    if(!$newProjectUser) {
+    if (!$newProjectUser) {
       return $this->fail($this->projectUsersModel->errors(), 400);
     }
 
@@ -130,10 +130,10 @@ class ProjectsController extends BaseController
     if (!$projectToDelete) {
       return $this->failNotFound('No project found with id ' . $id, 404);
     }
-    
+
     $this->projectLinksModel->deleteProjectLinks($id);
     $this->projectUsersModel->deleteProjectUsers($id);
-    
+
     return $this->respond(['aia']);
     $this->projectsModel->delete($id);
 
@@ -143,7 +143,7 @@ class ProjectsController extends BaseController
   public function getRandomProjects($ownUser)
   {
     $limit = $this->request->getVar('limit') ?? 5;
-    
+
     $projects = $this->projectsModel->getRandomProjects($limit, $ownUser);
 
     $projects = array_map(function ($project) {
@@ -155,8 +155,10 @@ class ProjectsController extends BaseController
     return $this->respond($projects, 200);
   }
 
-  public function searchProjects($name)
+  public function searchProjects()
   {
+    $name = $this->request->getVar('q') ?? '';
+
     $projects = $this->projectsModel->searchProjects($name);
 
     $projects = array_map(function ($project) {
@@ -202,5 +204,4 @@ class ProjectsController extends BaseController
 
     return $this->respond($projects);
   }
-
 }

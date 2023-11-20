@@ -4,7 +4,8 @@ namespace App\Models;
 
 use CodeIgniter\Model;
 
-class UsersModel extends Model {
+class UsersModel extends Model
+{
   protected $table = 'users';
   protected $primaryKey = 'id_user';
 
@@ -24,21 +25,22 @@ class UsersModel extends Model {
   protected $dateFormat = 'datetime';
   protected $createdField = 'created_at';
 
-  public function getRandomUsers($limit, $ownUser) {
+  public function getRandomUsers($limit, $ownUser)
+  {
     $query = $this->db->query(
       "SELECT * FROM users 
       WHERE id_user != $ownUser ORDER BY 
-      RAND() LIMIT $limit");
+      RAND() LIMIT $limit"
+    );
 
     return $query->getResultArray();
   }
 
-  public function searchUsers($name, $ownUser){
-    $query = $this->db->query(
-      "SELECT u.username, u.avatar, u.display_name FROM users u
-       WHERE username LIKE '%$name%' AND id_user != $ownUser"
-    );
-
-    return $query->getResultArray();
+  public function searchUsers($name)
+  {
+    return $this->db->query(
+      "SELECT u.* FROM users u
+      WHERE username LIKE '%$name%' OR display_name LIKE '%$name%'"
+    )->getResultArray();
   }
 }
