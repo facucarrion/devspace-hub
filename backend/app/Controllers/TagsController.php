@@ -5,21 +5,25 @@ namespace App\Controllers;
 use App\Models\TagsModel;
 use CodeIgniter\API\ResponseTrait as APIResponseTrait;
 
-class TagsController extends BaseController {
+class TagsController extends BaseController
+{
   use APIResponseTrait;
 
   private $tagsModel;
 
-  public function __construct() {
+  public function __construct()
+  {
     $this->tagsModel = new TagsModel();
   }
 
-  public function getAll() {
+  public function getAll()
+  {
     $tags = $this->tagsModel->findAll();
     return $this->respond($tags, 200);
   }
 
-  public function getById($id) {
+  public function getById($id)
+  {
     $tag = $this->tagsModel->find($id);
 
     if ($tag) {
@@ -29,21 +33,23 @@ class TagsController extends BaseController {
     }
   }
 
-  public function create() {
+  public function create()
+  {
     $tag = $this->request->getJSON();
 
     $newTag = $this->tagsModel->insert([
       'tag' => $tag->tag
     ]);
 
-    if($newTag) {
+    if ($newTag) {
       return $this->respondCreated($this->tagsModel->find($newTag), 'Tag created!');
     } else {
       return $this->fail($this->tagsModel->errors(), 400);
     }
   }
 
-  public function edit($id) {
+  public function edit($id)
+  {
     $tag = $this->request->getJSON();
 
     if ($this->tagsModel->update($id, [
@@ -57,7 +63,8 @@ class TagsController extends BaseController {
     }
   }
 
-  public function delete($id) {
+  public function delete($id)
+  {
     if ($this->tagsModel->delete($id)) {
       return $this->respondDeleted(['id_tag' => $id], 'Tag deleted!');
     } else {
@@ -65,11 +72,11 @@ class TagsController extends BaseController {
     }
   }
 
-  public function isTagExist($name){
-   
+  public function isTagExist($name)
+  {
     $tag = $this->tagsModel->getTagIdByName($name);
 
-    if($tag == null || $tag == false){
+    if ($tag == null || $tag == false) {
       $tag = $this->tagsModel->insert([
         'tag' => $name
       ]);

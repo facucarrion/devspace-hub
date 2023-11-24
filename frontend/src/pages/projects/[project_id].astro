@@ -3,6 +3,8 @@ import Layout from '@layout/RootLayout.astro'
 import { getProject } from '@lib/projects/getProject'
 import UpvoteButton from '@comp/ui/UpvoteButton.svelte'
 import DeleteProject from '@comp/ui/DeleteProject.svelte'
+import AddCollaboratorsLink from '@comp/ui/AddCollaboratorsLink.svelte'
+
 
 const { project_id } = Astro.params
 
@@ -52,6 +54,7 @@ const project = await getProject(project_id as string)
     </section>
     <footer class="flex w-100 justify-start">
       <DeleteProject client:only id_project={project.id_project} id_creator={project.creator_id} />
+      <AddCollaboratorsLink client:only id_project={project.id_project} id_creator={project.creator_id} />
     </footer>
   </main>
 </Layout>

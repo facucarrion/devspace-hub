@@ -66,17 +66,79 @@ class UsersController extends BaseController
 
   public function edit($id)
   {
-    $user = $this->request->getJSON();
+    $json = $this->request->getJSON();
 
-    if ($this->usersModel->update($id, [
-      'username' => $user->username,
-      'display_name' => $user->display_name,
-      'email' => $user->email,
-      'password' => $user->password
-    ])) {
-      $user->id_user = $id;
+    $newData = [
+      'username' => $json->username,
+      'display_name' => $json->display_name,
+      'email' => $json->email
+    ];
 
-      return $this->respondUpdated($user, 'User updated!');
+    $query = $this->usersModel->update($id, $newData);
+
+    if ($query) {
+      return $this->respondUpdated($this->usersModel->find($id), 'User updated!');
+    } else {
+      return $this->fail($this->usersModel->errors(), 400);
+    }
+  }
+
+  public function editAvatar($id)
+  {
+    $avatar = $this->request->getFile('avatar');
+
+    $uploadPath = NULL;
+
+    if (!$avatar->isValid()) {
+      $avatar = NULL;
+    } else {
+      $newAvatarName = $avatar->getRandomName();
+      $uploads = 'img/avatars';
+      $avatar->move($uploads, $newAvatarName);
+      $uploadPath = base_url($uploads . '/' . $newAvatarName);
+    }
+
+    $newData = [
+      'avatar' => $uploadPath
+    ];
+
+    $query = $this->usersModel->update($id, $newData);
+
+    if ($query) {
+      return $this->respondUpdated($this->usersModel->find($id), 'Avatar updated!');
+    } else {
+      return $this->fail($this->usersModel->errors(), 400);
+    }
+  }
+
+  public function editPassword($id)
+  {
+    $json = $this->request->getJSON();
+
+    $lastPassword = $json->last_password;
+    $newPassword = $json->new_password;
+    $repeatPassword = $json->repeat_new_password;
+
+    $user = $this->usersModel->find($id);
+
+    if ($newPassword != $repeatPassword) {
+      return $this->fail('Password confirmation does not match', 400);
+    }
+
+    if (!password_verify($lastPassword, $user['password'])) {
+      return $this->fail('Wrong password', 400);
+    }
+
+    $hashedPassword = password_hash($newPassword, PASSWORD_BCRYPT);
+
+    $newData = [
+      'password' => $hashedPassword
+    ];
+
+    $query = $this->usersModel->update($id, $newData);
+
+    if ($query) {
+      return $this->respondUpdated($this->usersModel->find($id), 'Password updated!');
     } else {
       return $this->fail($this->usersModel->errors(), 400);
     }

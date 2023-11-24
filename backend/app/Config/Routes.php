@@ -39,11 +39,16 @@ $routes->group('api', ['filter' => 'cors'], function ($routes) {
 
     $routes->group('users', function ($routes) {
         $routes->get('/', 'UsersController::getAll');
-        $routes->post('/', 'UsersController::create');
         $routes->get('(:num)', 'UsersController::getById/$1');
         $routes->get('username/(:any)', 'UsersController::getByUsername/$1');
+
+        $routes->post('/', 'UsersController::create');
+        $routes->patch('(:num)', 'UsersController::edit/$1');
         $routes->delete('(:num)', 'UsersController::delete/$1');
-        $routes->put('(:num)', 'UsersController::edit/$1');
+
+        $routes->post('editAvatar/(:num)', 'UsersController::editAvatar/$1');
+        $routes->patch('editPassword/(:num)', 'UsersController::editPassword/$1');
+
         $routes->get('random/(:num)', 'UsersController::getRandomUsers/$1');
         $routes->get('search', 'UsersController::searchUsers');
     });
@@ -55,17 +60,17 @@ $routes->group('api', ['filter' => 'cors'], function ($routes) {
         $routes->patch('(:num)', 'ProjectsController::edit/$1');
         $routes->delete('(:num)', 'ProjectsController::delete/$1');
 
+
         $routes->get('random/(:num)', 'ProjectsController::getRandomProjects/$1');
 
         $routes->get('search', 'ProjectsController::searchProjects');
 
+        $routes->patch('collab', 'ProjectUsersController::collab');
+        $routes->patch('collab/check', 'ProjectUsersController::isCollaborator');
+
         $routes->get('collab/(:num)', 'ProjectsController::getProjectsByCollaborator/$1');
         $routes->get('creator/(:num)', 'ProjectsController::getProjectsByCreator/$1');
-    });
-
-    $routes->group('project-users', function ($routes) {
-        $routes->get('getupvote', 'ProjectUsersController::checkUpvote');
-        $routes->get('createCollaborator/(:num)', 'ProjectUsersController::createCollaborator/$1/$2/$3');
+        $routes->get('getCollab/(:num)', 'ProjectUsersController::getCollaborators/$1');
     });
 
     $routes->group('auth', function ($routes) {
