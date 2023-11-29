@@ -1,0 +1,10 @@
+POST http://localhost:8080/api/tag-projects/insert_alternative/6
+
+{
+  "alcance": 137,
+  "naturaleza": 130,
+  "dominio": 141,
+  "tipo": 113,
+  "proposito": 122,
+  "plataforma": 148
+}

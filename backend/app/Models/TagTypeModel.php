@@ -14,16 +14,7 @@ class TagsModel extends Model
   protected $returnType = 'array';
 
   protected $allowedFields = [
-    'id_tag',
-    'tag',
-    'id_tag_type'
+    'id_tag_type',
+    'type'
   ];
-
-  public function getTags()
-  {
-    return $this->db->query(
-      "SELECT * FROM tags t
-      INNER JOIN tag_type tt ON t.id_tag_type = tt.id_tag_type"
-    )->getResultArray();
-  }
 }

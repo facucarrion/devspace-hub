@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\ProjectsModel;
 use App\Models\ProjectUsersModel;
 use App\Models\ProjectLinksModel;
+use App\Models\TagsProjectModel;
 use CodeIgniter\API\ResponseTrait as APIResponseTrait;
 
 class ProjectsController extends BaseController
@@ -14,12 +15,14 @@ class ProjectsController extends BaseController
   private $projectsModel;
   private $projectUsersModel;
   private $projectLinksModel;
+  private $projectTagsModel;
 
   public function __construct()
   {
     $this->projectsModel = new ProjectsModel();
     $this->projectUsersModel = new ProjectUsersModel();
     $this->projectLinksModel = new ProjectLinksModel();
+    $this->projectTagsModel = new TagsProjectModel();
   }
 
   public function getAll()
@@ -35,6 +38,7 @@ class ProjectsController extends BaseController
     if ($project) {
       $project['collaborators'] = $this->projectUsersModel->getCollaborators($id);
       $project['links'] = $this->projectLinksModel->getLinks($id);
+      $project['tags'] = $this->projectTagsModel->getTagsByProject($id);
       return $this->respond($project, 200);
     } else {
       return $this->failNotFound('No project found with id ' . $id, 404);
@@ -133,6 +137,7 @@ class ProjectsController extends BaseController
 
     $this->projectLinksModel->deleteProjectLinks($id);
     $this->projectUsersModel->deleteProjectUsers($id);
+    $this->projectTagsModel->deleteTagsProject($id);
 
     return $this->respond(['aia']);
     $this->projectsModel->delete($id);

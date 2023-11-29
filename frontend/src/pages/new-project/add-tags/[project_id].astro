@@ -1,0 +1,29 @@
+---
+import TagsProject from "@comp/ui/TagsProject.svelte";
+import RootLayout from "@layout/RootLayout.astro";
+import { getProject } from "@lib/projects/getProject";
+
+const { project_id } = Astro.params
+
+if(!project_id) {
+  return Astro.redirect('/')
+}
+
+const project = await getProject(project_id)
+
+if(!project) {
+  return Astro.redirect('/404?Proyecto%20no%20encontrado')
+}
+---
+
+<RootLayout title="Add Tags">
+  <main class="w-full flex flex-grow flex-col">
+    <header>
+      <h1 class="text-2xl font-bold">Add Tags</h1>
+      <p class="text-gray-500">Add tags to your project</p>
+    </header>
+    <section class="w-full flex items-center h-full">
+      <TagsProject id_project={project_id} client:only />
+    </section>
+  </main>
+</RootLayout>
