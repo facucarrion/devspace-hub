@@ -7,6 +7,5 @@ export const follow = async (id_user_followed: string, id_user_follower:string) 
     })
   })
   const data = await response.json()
-  console.log(data)
   return data
 }

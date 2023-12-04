@@ -11,7 +11,6 @@
     isEditor(id_user, id_project).then(
       res => {
         checked = res.isEditor
-        console.log(res)
       }
     )
   }

@@ -3,15 +3,6 @@
     import { insertTagsAlternative } from '@lib/tagProjects/insertTagsAlternative'
 
     export let id_project: string
-    
-    const TAG_TYPES = {
-      alcance: 'Alcance',
-      dominio: 'Dominio',
-      naturaleza: 'Naturaleza',
-      plataforma: 'Plataforma',
-      proposito: 'Propósito',
-      tipo: 'Tipo'
-    }
 
     const handleTags = async (event: SubmitEvent) => {
       event.preventDefault()
@@ -37,7 +28,7 @@
       const response = await insertTagsAlternative(formData, id_project)
 
       if(response) {
-        location.href = `localhost:3000/projects/${id_project}`
+        location.href = `http://localhost:3000/projects/${id_project}`
       }
     }
 
@@ -85,7 +76,6 @@
     $: {
       getTags(id_project).then((res) => {
         tags = res
-        console.log(res)    
       })
     }
   </script> 

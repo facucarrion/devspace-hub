@@ -79,7 +79,8 @@ class FollowsController extends BaseController
     ]);
   }
 
-  public function isFollow(){
+  public function isFollow()
+  {
     $json = $this->request->getJSON();
 
     $id_user_followed = $json->id_user_followed;
@@ -87,22 +88,27 @@ class FollowsController extends BaseController
 
     $follow = $this->followsModel->getFollows($id_user_followed, $id_user_follower);
 
-    if(count($follow) == 0){
+    if (count($follow) == 0) {
       return $this->respond(["isFollow" => false]);
     } else {
       return $this->respond(["isFollow" => true]);
     }
   }
 
-  public function follow(){
+  public function follow()
+  {
     $json = $this->request->getJSON();
 
     $id_user_followed = $json->id_user_followed;
     $id_user_follower = $json->id_user_follower;
 
+    if ($id_user_followed == $id_user_follower) {
+      return $this->respond(["error" => "You can't follow yourself"]);
+    }
+
     $follow = $this->followsModel->getFollows($id_user_followed, $id_user_follower);
 
-    if(count($follow) == 0){
+    if (count($follow) == 0) {
       $this->followsModel->insert([
         'id_user_followed' => $id_user_followed,
         'id_user_follower' => $id_user_follower,

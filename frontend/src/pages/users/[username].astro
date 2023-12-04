@@ -39,8 +39,8 @@ if (user?.status === 404) {
           class="aspect-square h-20 rounded-full" 
         />
         <UserName username={user.username} display_name={user.display_name} />
+        <EditProfileButton client:only userInPageId={user.id_user} />
       </div>
-      <EditProfileButton client:only userInPageId={user.id_user} />
       <FollowCount client:load counts={followCount} />
       <FollowButton client:only id_user={user.id_user} />
     </header>
