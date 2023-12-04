@@ -3,6 +3,7 @@ GET http://localhost:8080/api/projects/
 ###
 GET http://localhost:8080/api/projects/5
 
+
 ###
 
 POST http://localhost:80/api/projects
@@ -32,4 +33,5 @@ PATCH http://localhost:8080/api/projects/upvotes/15
 GET http://localhost:8080/api/projects/search/w
 
 ###
-GET http://localhost:8080/api/projects/collab/46
+GET http://localhost:8080/api/projects/getCollab/6
+

@@ -6,8 +6,8 @@ export interface Project {
   image: string
   logo: string
   upvotes: string
-  id_user_creator: string
   created_at: string
+  creator_id: string
   creator_username: string
   creator_avatar: string
   collaborators: {

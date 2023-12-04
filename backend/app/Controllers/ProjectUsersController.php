@@ -53,23 +53,6 @@ class ProjectUsersController extends BaseController
     }
   }
 
-  public function createCollaborator($id_project, $id_user,$is_editor)
-  {
-    $newProjectsUser = $this->projectUsersModel->insert([
-      'id_rol'     => 1, 
-      'id_project' => $id_project,
-      'id_user'    => $id_user,
-      'is_editor'  => $is_editor,
-      'upvote'     => 0
-    ]);
-
-    if ($newProjectsUser) {
-      return $this->respondCreated($this->projectUsersModel->find($newProjectsUser), 'Collaborator created!');
-    } else {
-      return $this->fail($this->projectUsersModel->errors(), 400);
-    }
-  }
-
   public function edit($id)
   {
     $projectsUser = $this->request->getJSON();
@@ -96,33 +79,35 @@ class ProjectUsersController extends BaseController
     }
   }
 
-  public function getCollaborators($id) {
+  public function getCollaborators($id)
+  {
     if (!$this->projectsModel->find($id)) {
-      return $this->failNotFound('No projectsUser found with id ' . $id, 404);
+      return $this->failNotFound('No project found with id ' . $id, 404);
     }
 
     $collaborators = $this->projectUsersModel->getCollaborators($id);
     return $this->respond($collaborators, 200);
   }
 
-  public function getCollaboratorsWithLimit($id, $limit = 5) {
+  public function getCollaboratorsWithLimit($id, $limit = 5)
+  {
     $limit = $this->request->getVar('limit') ?? $limit;
 
     $collaborators = $this->projectUsersModel->getCollaboratorsWhitLimit($id, $limit);
     return $this->respond($collaborators, 200);
   }
-  
-  
+
+
   public function isUpvoted()
   {
-    $json = $this->request->getJson();
+    $json = $this->request->getJSON();
 
     $id_project = $json->id_project;
     $id_user = $json->id_user;
 
     $projectUsers = $this->projectUsersModel->getProjectUsers($id_project, $id_user);
-    
-    if(count($projectUsers) == 0 || $projectUsers[0]["upvote"] == 0) {
+
+    if (count($projectUsers) == 0 || $projectUsers[0]["upvote"] == 0) {
       return $this->respond(["isUpvoted" => false]);
     } else {
       return $this->respond(["isUpvoted" => true]);
@@ -138,8 +123,7 @@ class ProjectUsersController extends BaseController
 
     $projectUsers = $this->projectUsersModel->getProjectUsers($id_project, $id_user);
 
-
-    if(count($projectUsers) == 0) {
+    if (count($projectUsers) == 0) {
       $this->projectUsersModel->insert([
         "id_rol" => 3,
         "id_project" => $id_project,
@@ -147,9 +131,11 @@ class ProjectUsersController extends BaseController
         "is_editor" => 0,
         "upvote" => 0
       ]);
+
+      $projectUsers = $this->projectUsersModel->getProjectUsers($id_project, $id_user);
     }
 
-    if($projectUsers[0]["upvote"] == 0) {
+    if ($projectUsers[0]["upvote"] == 0) {
       $this->projectUsersModel->update($projectUsers[0]["id_project_user"], [
         "upvote" => 1
       ]);
@@ -160,5 +146,97 @@ class ProjectUsersController extends BaseController
     }
 
     return $this->respond(["upvotes" => $this->projectsModel->getProject($projectUsers[0]["id_project"])["upvotes"]]);
+  }
+
+  public function isCollaborator()
+  {
+    $json = $this->request->getJSON();
+
+    $id_project = $json->id_project;
+    $id_user = $json->id_user;
+
+    $projectUsers = $this->projectUsersModel->getProjectUsers($id_project, $id_user);
+
+    if (count($projectUsers) == 0 || $projectUsers[0]['id_rol'] != 1) {
+      return $this->respond(["isCollaborator" => false]);
+    } else {
+      return $this->respond(["isCollaborator" => true]);
+    }
+  }
+
+  public function isEditor()
+  {
+    $json = $this->request->getJSON();
+
+    $id_project = $json->id_project;
+    $id_user = $json->id_user;
+
+    $projectUsers = $this->projectUsersModel->getProjectUsers($id_project, $id_user);
+
+    if ($projectUsers[0]['is_editor'] == 1) {
+      return $this->respond(["isEditor" => true]);
+    } else {
+      return $this->respond(["isEditor" => false]);
+    }
+  }
+
+  public function collab()
+  {
+    $json = $this->request->getJSON();
+
+    $id_project = $json->id_project;
+    $id_user = $json->id_user;
+
+    $projectUsers = $this->projectUsersModel->getProjectUsers($id_project, $id_user);
+
+    if (count($projectUsers) == 0) {
+      $this->projectUsersModel->insert([
+        "id_rol" => 3,
+        "id_project" => $id_project,
+        "id_user" => $id_user,
+        "is_editor" => 0,
+        "upvote" => 0
+      ]);
+
+      $projectUsers = $this->projectUsersModel->getProjectUsers($id_project, $id_user);
+    }
+
+    if ($projectUsers[0]["id_rol"] == 1) {
+      $this->projectUsersModel->update($projectUsers[0]["id_project_user"], [
+        "id_rol" => 3
+      ]);
+    } else {
+      $this->projectUsersModel->update($projectUsers[0]["id_project_user"], [
+        "id_rol" => 1
+      ]);
+    }
+
+    return $this->respond([
+      "id_rol" => $this->projectUsersModel->getProjectUsers($id_project, $id_user)[0]['id_rol']
+    ]);
+  }
+
+  public function collabEditor()
+  {
+    $json = $this->request->getJSON();
+
+    $id_project = $json->id_project;
+    $id_user = $json->id_user;
+
+    $projectUsers = $this->projectUsersModel->getProjectUsers($id_project, $id_user);
+
+    if ($projectUsers[0]["is_editor"] != 1) {
+      $this->projectUsersModel->update($projectUsers[0]["id_project_user"], [
+        "is_editor" => 1
+      ]);
+    } else {
+      $this->projectUsersModel->update($projectUsers[0]["id_project_user"], [
+        "is_editor" => 0
+      ]);
+    }
+
+    return $this->respond([
+      "is_editor" => $this->projectUsersModel->getProjectUsers($id_project, $id_user)[0]['is_editor']
+    ]);
   }
 }

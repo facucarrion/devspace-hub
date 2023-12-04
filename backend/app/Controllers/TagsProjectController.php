@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\TagsProjectModel;
+use App\Models\TagsModel;
 use CodeIgniter\API\ResponseTrait as APIResponseTrait;
 
 class TagsProjectController extends BaseController
@@ -10,10 +11,12 @@ class TagsProjectController extends BaseController
   use APIResponseTrait;
 
   private $tagsProjectModel;
+  private $tagsModel;
 
   public function __construct()
   {
     $this->tagsProjectModel = new TagsProjectModel();
+    $this->tagsModel = new TagsModel();
   }
 
   public function getAll()
@@ -33,7 +36,7 @@ class TagsProjectController extends BaseController
     }
   }
 
-  public function create()  
+  public function create()
   {
     $tagProject = $this->request->getJSON();
 
@@ -58,14 +61,53 @@ class TagsProjectController extends BaseController
     }
   }
 
-  public function insertTags(){
-    $tags = $this->request->getJson();
+  public function insertTags()
+  {
+    $tagsProject = $this->request->getJSON();
 
-    for($i = 0; $i < count($tags); $i++){
+    $insertedTagsProject = $this->tagsProjectModel->insertBatch($tagsProject);
+
+    if ($insertedTagsProject) {
+      return $this->respondCreated($this->tagsProjectModel->find($insertedTagsProject), 'TagsProject created!');
+    } else {
+      return $this->fail($this->tagsProjectModel->errors(), 400);
+    }
+  }
+
+  public function insertTagsAlternative($id_project)
+  {
+
+    $json = $this->request->getJSON();
+
+    $array_tags = [
+      $json->alcance,
+      $json->naturaleza,
+      $json->proposito,
+      $json->dominio,
+      $json->tipo,
+      $json->plataforma
+    ];
+
+    foreach ($array_tags as $id_tag) {
+      $tag = $this->tagsModel->find($id_tag);
+
+
+      if ($this->tagsProjectModel->projectHasTagType($id_project, $tag['id_tag_type'])) {
+        $this->tagsProjectModel->deleteByTypeAndProject($id_project, $tag['id_tag_type']);
+      }
+
       $this->tagsProjectModel->insert([
-        'id_project' => $tags[$i]->id_project,
-        'id_tag' => $tags[$i]->id_tag
+        'id_project' => $id_project,
+        'id_tag' => $id_tag
       ]);
     }
+
+    return $this->respond($this->tagsProjectModel->getTagsByProject($id_project));
+  }
+
+
+  public function getTagsByProject($id_project)
+  {
+    return $this->respond($this->tagsProjectModel->getTagsByProject($id_project));
   }
 }

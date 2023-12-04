@@ -32,7 +32,7 @@ class ProjectUsersModel extends Model
   public function getCollaborators($id)
   {
     return $this->db->query(
-      "SELECT u.username, u.avatar, pu.is_editor FROM project_users pu
+      "SELECT u.id_user, u.username, u.avatar, pu.is_editor FROM project_users pu
       INNER JOIN users u ON pu.id_user = u.id_user
       INNER JOIN projects p ON pu.id_project = p.id_project
       WHERE pu.id_project = $id AND pu.id_rol = 1"
@@ -64,10 +64,29 @@ class ProjectUsersModel extends Model
   public function getProjectsByCollaborator($id)
   {
     return $this->db->query(
-      "SELECT p.*, u.username as creator_username, u.avatar as creator_avatar
+      "SELECT p.*, 
+
+      (
+        SELECT u.username FROM users u 
+		    INNER JOIN project_users pu ON pu.id_user = u.id_user AND pu.id_project = p.id_project
+		    WHERE u.id_user = pu.id_user AND pu.id_rol = 2
+      ) as creator_username,
+      (
+        SELECT u.avatar FROM users u 
+		    INNER JOIN project_users pu ON pu.id_user = u.id_user AND pu.id_project = p.id_project
+		    WHERE u.id_user = pu.id_user AND pu.id_rol = 2
+      ) as creator_avatar,
+      (
+        SELECT u.id_user FROM users u 
+		    INNER JOIN project_users pu ON pu.id_user = u.id_user AND pu.id_project = p.id_project
+		    WHERE u.id_user = pu.id_user AND pu.id_rol = 2
+      ) as creator_id
+
       FROM projects p
+
       INNER JOIN project_users pu ON p.id_project = pu.id_project
       INNER JOIN users u ON pu.id_user = u.id_user
+
       WHERE pu.id_rol = 1 AND pu.id_user = $id"
     )->getResultArray();
   }
