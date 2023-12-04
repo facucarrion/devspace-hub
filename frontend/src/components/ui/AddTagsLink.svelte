@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { isEditor } from "@lib/projectUsers/isEditor";
   export let id_project: string
+  import { isEditor } from "@lib/projectUsers/isEditor";
 
   let is_editor = false
   

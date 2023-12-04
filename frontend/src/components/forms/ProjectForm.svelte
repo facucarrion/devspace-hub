@@ -28,18 +28,22 @@
     name="title"
     placeholder="Title"
     class="w-full border-b-2 border-white bg-transparent focus:outline-none text-white text-lg pl-1"
+    required
   />
   <input
     type="text"
     name="url"
     placeholder="Url"
     class="w-full border-b-2 border-white bg-transparent focus:outline-none text-white text-lg pl-1"
+    required
   />
   <span class="flex w-100 justify-between items-center gap-5">
     Logo: <input
       type="file"
       name="logo"
       class="flex-grow"  
+      accept="image/*"
+      required
     >
   </span>
   
@@ -48,6 +52,8 @@
       type="file"
       name="image"
       class="flex-grow"  
+      accept="image/*"
+      required
     >
   </span>
   <textarea name="description" placeholder="Description" class="resize-none w-full bg-transparent text-lg px-1 border-b-2 border-white focus:outline-none" rows="5" maxlength="200"></textarea>

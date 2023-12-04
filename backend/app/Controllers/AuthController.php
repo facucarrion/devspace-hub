@@ -59,10 +59,15 @@ class AuthController extends BaseController
     if (!$avatar->isValid()) {
       $avatar = NULL;
     } else {
+      $check = getimagesize($avatar->getTempName());
+      if ($check === false) {
+        $avatar = NULL;
+      }
       $newAvatarName = $avatar->getRandomName();
       $uploads = 'img/avatars';
       $avatar->move($uploads, $newAvatarName);
       $uploadPath = base_url($uploads . '/' . $newAvatarName);
+      
     }
 
     if ($password !== $repeatPassword) {
