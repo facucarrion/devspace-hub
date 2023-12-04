@@ -38,7 +38,10 @@ $routes->group('api', ['filter' => 'cors'], function ($routes) {
         $routes->get('search', 'ProjectsController::searchProjects');
 
         $routes->patch('collab', 'ProjectUsersController::collab');
+        $routes->patch('editor', 'ProjectUsersController::collabEditor');
+
         $routes->patch('collab/check', 'ProjectUsersController::isCollaborator');
+        $routes->patch('editor/check', 'ProjectUsersController::isEditor');
 
         $routes->get('collab/(:num)', 'ProjectsController::getProjectsByCollaborator/$1');
         $routes->get('creator/(:num)', 'ProjectsController::getProjectsByCreator/$1');

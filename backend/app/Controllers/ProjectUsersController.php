@@ -164,6 +164,22 @@ class ProjectUsersController extends BaseController
     }
   }
 
+  public function isEditor()
+  {
+    $json = $this->request->getJSON();
+
+    $id_project = $json->id_project;
+    $id_user = $json->id_user;
+
+    $projectUsers = $this->projectUsersModel->getProjectUsers($id_project, $id_user);
+
+    if ($projectUsers[0]['is_editor'] == 1) {
+      return $this->respond(["isEditor" => true]);
+    } else {
+      return $this->respond(["isEditor" => false]);
+    }
+  }
+
   public function collab()
   {
     $json = $this->request->getJSON();
@@ -195,6 +211,32 @@ class ProjectUsersController extends BaseController
       ]);
     }
 
-    return $this->respond(['success' => true]);
+    return $this->respond([
+      "id_rol" => $this->projectUsersModel->getProjectUsers($id_project, $id_user)[0]['id_rol']
+    ]);
+  }
+
+  public function collabEditor()
+  {
+    $json = $this->request->getJSON();
+
+    $id_project = $json->id_project;
+    $id_user = $json->id_user;
+
+    $projectUsers = $this->projectUsersModel->getProjectUsers($id_project, $id_user);
+
+    if ($projectUsers[0]["is_editor"] != 1) {
+      $this->projectUsersModel->update($projectUsers[0]["id_project_user"], [
+        "is_editor" => 1
+      ]);
+    } else {
+      $this->projectUsersModel->update($projectUsers[0]["id_project_user"], [
+        "is_editor" => 0
+      ]);
+    }
+
+    return $this->respond([
+      "is_editor" => $this->projectUsersModel->getProjectUsers($id_project, $id_user)[0]['is_editor']
+    ]);
   }
 }

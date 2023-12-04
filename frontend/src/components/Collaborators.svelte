@@ -3,6 +3,7 @@
   import type { User } from '../types/User'
   import CollaboratorButton from './ui/CollaboratorButton.svelte'
   import type { Project } from '../types/Project'
+  import CollaboratorEditorButton from './ui/CollaboratorEditorButton.svelte'
 
   export let collaborators: User[]
   export let project: Project
@@ -79,6 +80,7 @@
         </h3>
       </a>
 
+      <CollaboratorEditorButton id_user={user.id_user} id_project={project.id_project} />
       <CollaboratorButton id_user={user.id_user} id_project={project.id_project} />
     </div>
   {/each}
