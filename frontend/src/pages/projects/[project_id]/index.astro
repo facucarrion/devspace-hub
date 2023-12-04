@@ -14,8 +14,6 @@ if (!project_id) {
 }
 
 const project = await getProject(project_id as string)
-
-console.log(project)
 ---
 
 <Layout title={project.title}>
@@ -67,7 +65,7 @@ console.log(project)
     <footer class="flex w-100 justify-start">
       <DeleteProject client:only id_project={project.id_project} id_creator={project.creator_id} />
       <AddCollaboratorsLink client:only id_project={project.id_project} id_creator={project.creator_id} />
-      <AddTagsLink client:only id_project={project.id_project} id_creator={project.creator_id} />
+      <AddTagsLink client:only id_project={project.id_project} />
     </footer>
   </main>
 </Layout>

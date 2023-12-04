@@ -45,11 +45,15 @@
     })
   }
 
+  const isMe = localStorage.getItem('user_id') == id_user
+
 </script>
 
-<button 
-  class={`${SIZES[variant]} z-2 bg-white text-black font-bold rounded-full relative z-20 hover:bg-black hover:text-white`}
-  on:click={states[following]?.function}
->
-  {states[following]?.text}
-</button>
+{#if !isMe}
+  <button 
+    class={`${SIZES[variant]} z-2 bg-white text-black font-bold rounded-full relative z-20 hover:bg-black hover:text-white`}
+    on:click={states[following]?.function}
+  >
+    {states[following]?.text}
+  </button>
+{/if}

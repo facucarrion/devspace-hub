@@ -8,7 +8,6 @@
     isEditor(localStorage.getItem('user_id') as string, id_project).then(
       res => {
         is_editor = res.isEditor
-        console.log(res)
       }
     )
   }

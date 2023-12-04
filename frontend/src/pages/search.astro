@@ -5,6 +5,7 @@ import { searchUsers } from '@lib/users/searchUsers'
 import type { Project } from '../types/Project'
 import type { User } from '../types/User'
 import FollowButton from '@comp/ui/FollowButton.svelte'
+import UserName from '@comp/UserName.svelte'
 
 const url = Astro.url
 const search = url.searchParams.get('q') || ''
@@ -69,24 +70,22 @@ const users: User[] = await searchUsers(search)
 
   <section class="flex flex-col w-1/2 p-2 gap-2">
     {search != '' && users.map(user => (
-      <div
-        class="relative min-w-[150px] rounded-md flex items-center justify-between p-2 backdrop-blur-md bg-[#14141466]"
+      <a
+        href={`http://localhost:3000/users/${user.username}`}
+        class="relative min-w-[150px] rounded-md flex items-center justify-between p-2 gap-3 backdrop-blur-md bg-[#14141466]"
       >
-        <picture class="h-20 w-20 rounded-full flex justify-center overflow-hidden">
-          <img
-            src={user.avatar || 'http://localhost:8080/img/placeholders/avatar.jpg'}
-            alt={user.username}
-            class="h-full"
-          />
-        </picture>
+        <div class="flex flex-1 items-center justify-between gap-4">
+          <picture class="h-20 w-20 rounded-full flex justify-center overflow-hidden">
+            <img
+              src={user.avatar || 'http://localhost:8080/img/placeholders/avatar.jpg'}
+              alt={user.username}
+              class="h-full"
+            />
+          </picture>
 
-        <a href={`/users/${user.username}`}>
-          <h3 class="text-lg text-white font-bold text-opacity-70">
-            {user.username}
-          </h3>
-        </a>
-        <FollowButton id_user={user.id_user} variant="sm" client:only />
-      </div>
+          <UserName display_name={user.display_name} username={user.username} />
+        </div>
+      </a>
     ))}
 
     {

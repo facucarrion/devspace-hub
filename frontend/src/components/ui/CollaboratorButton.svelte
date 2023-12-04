@@ -11,7 +11,7 @@
     collaborating: {
       text: 'Remove',
       function: async () => {
-        const newCollab = await collab(
+        await collab(
           id_user,
           id_project
         )
@@ -22,7 +22,7 @@
     notCollaborating: {
       text: 'Add',
       function: async () => {
-        const newCollab = await collab(
+        await collab(
           id_user,
           id_project
         )
