@@ -3,82 +3,42 @@
 namespace App\Controllers;
 
 use App\Models\TagsModel;
+use App\Models\TagsProjectModel;
 use CodeIgniter\API\ResponseTrait as APIResponseTrait;
 
-class TagsController extends BaseController {
+class TagsController extends BaseController
+{
   use APIResponseTrait;
 
   private $tagsModel;
+  private $tagsProjectModel;
 
-  public function __construct() {
+  public function __construct()
+  {
     $this->tagsModel = new TagsModel();
+    $this->tagsProjectModel = new TagsProjectModel();
   }
 
-  public function getAll() {
-    $tags = $this->tagsModel->findAll();
-    return $this->respond($tags, 200);
-  }
+  public function getAll($id_project)
+  {
+    $tagsData = $this->tagsModel->getTags();
 
-  public function getById($id) {
-    $tag = $this->tagsModel->find($id);
+    $tags = [];
 
-    if ($tag) {
-      return $this->respond($tag, 200);
-    } else {
-      return $this->failNotFound('No tag found with id ' . $id, 404);
-    }
-  }
+    foreach ($tagsData as $item) {
+      $type = $item['type'];
 
-  public function create() {
-    $tag = $this->request->getJSON();
-
-    $newTag = $this->tagsModel->insert([
-      'tag' => $tag->tag
-    ]);
-
-    if($newTag) {
-      return $this->respondCreated($this->tagsModel->find($newTag), 'Tag created!');
-    } else {
-      return $this->fail($this->tagsModel->errors(), 400);
-    }
-  }
-
-  public function edit($id) {
-    $tag = $this->request->getJSON();
-
-    if ($this->tagsModel->update($id, [
-      'tag' => $tag->tag
-    ])) {
-      $tag->id_tag = $id;
-
-      return $this->respondUpdated($tag, 'Tag updated!');
-    } else {
-      return $this->fail($this->tagsModel->errors(), 400);
-    }
-  }
-
-  public function delete($id) {
-    if ($this->tagsModel->delete($id)) {
-      return $this->respondDeleted(['id_tag' => $id], 'Tag deleted!');
-    } else {
-      return $this->fail($this->tagsModel->errors(), 400);
-    }
-  }
-
-  public function isTagExist($name){
-    $tags = $this->request->getJson();
-
-    for($i = 0; $i < count($tags); $i++){
-
-      $tag = $this->tagsModel->getTagIdByName($tags[$i]->tag);
-
-      if($tag == null || $tag == false){
-        $tag = $this->tagsModel->insert([
-          'tag' => $name
-        ]);
-        $tag = $this->tagsModel->getTagIdByName($name);
+      if (!isset($tags[$type])) {
+        $tags[$type] = [];
       }
-  }
-  return $this->respond($tag, 200);
+
+      $tags[$type][] = [
+        'id_tag' => $item['id_tag'],
+        'tag' => $item['tag'],
+        'checked' => $this->tagsProjectModel->projectHasTag($id_project, $item['id_tag'])
+      ];
+    }
+
+    return $this->respond($tags, 200);
   }
 }

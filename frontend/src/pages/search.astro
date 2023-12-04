@@ -21,6 +21,7 @@ const users: User[] = await searchUsers(search)
     name="q" 
     value={search} 
     class="bg-transparent border-b-2 text-xl focus:outline-none flex-grow"
+    placeholder="Buscar proyectos y usuarios"
   />
 
   <button
@@ -62,10 +63,10 @@ const users: User[] = await searchUsers(search)
 
     {
       projects.length == 0 
-        && <p>No se encontraron proyectos</p>
+        && <p class="w-full text-center text-xl">No se encontraron proyectos</p>
     }
   </section>
-  
+
   <section class="flex flex-col w-1/2 p-2 gap-2">
     {search != '' && users.map(user => (
       <div
@@ -90,7 +91,7 @@ const users: User[] = await searchUsers(search)
 
     {
       users.length == 0 
-        && <p>No se encontraron usuarios</p>
+        && <p class="w-full text-center text-xl">No se encontraron usuarios</p>
     }
   </section>
 </main>

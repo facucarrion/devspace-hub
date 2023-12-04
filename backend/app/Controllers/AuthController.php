@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Controllers;
 
@@ -6,22 +6,25 @@ use App\Models\UsersModel;
 use CodeIgniter\API\ResponseTrait as APIResponseTrait;
 use Firebase\JWT\JWT;
 
-class AuthController extends BaseController {
+class AuthController extends BaseController
+{
   use APIResponseTrait;
 
   private $usersModel;
 
-  public function __construct() {
+  public function __construct()
+  {
     $this->usersModel = new UsersModel();
   }
 
-  public function login() {
+  public function login()
+  {
     $body = $this->request->getJSON();
 
     $user = $this->usersModel->where('email', $body->email)->first();
-    
-    if($user) {
-      if(password_verify($body->password, $user['password'])) {
+
+    if ($user) {
+      if (password_verify($body->password, $user['password'])) {
         $tokenData = [
           'iss' => time(),
           'exp' => time() + 60 * 60 * 24,
@@ -42,7 +45,8 @@ class AuthController extends BaseController {
     }
   }
 
-  public function register() {
+  public function register()
+  {
     $username = $this->request->getPost('username');
     $email = $this->request->getPost('email');
     $avatar = $this->request->getFile('avatar');
@@ -52,7 +56,7 @@ class AuthController extends BaseController {
 
     $uploadPath = null;
 
-    if(!$avatar->isValid()) {
+    if (!$avatar->isValid()) {
       $avatar = NULL;
     } else {
       $newAvatarName = $avatar->getRandomName();
@@ -61,14 +65,14 @@ class AuthController extends BaseController {
       $uploadPath = base_url($uploads . '/' . $newAvatarName);
     }
 
-    if($password !== $repeatPassword) {
+    if ($password !== $repeatPassword) {
       return $this->fail('Password confirmation does not match', 400);
     }
 
     $hashedPassword = password_hash("$password", PASSWORD_BCRYPT);
     $sameMail = $this->usersModel->where('email', $email)->first();
 
-    if($sameMail) {
+    if ($sameMail) {
       return $this->fail('User already exists', 400);
     }
 
@@ -82,14 +86,15 @@ class AuthController extends BaseController {
     ]);
 
 
-    if($newUser) {
+    if ($newUser) {
       return $this->respondCreated($this->usersModel->find($newUser));
     } else {
       return $this->fail('User not registered', 400);
     }
   }
 
-  public function getJwtSecret($id) {
+  public function getJwtSecret($id)
+  {
     $user = $this->usersModel->find($id);
 
     if ($user) {

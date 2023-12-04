@@ -3,6 +3,9 @@ import Layout from '@layout/RootLayout.astro'
 import { getProject } from '@lib/projects/getProject'
 import UpvoteButton from '@comp/ui/UpvoteButton.svelte'
 import DeleteProject from '@comp/ui/DeleteProject.svelte'
+import AddCollaboratorsLink from '@comp/ui/AddCollaboratorsLink.svelte'
+import AddTagsLink from '@comp/ui/AddTagsLink.svelte'
+
 
 const { project_id } = Astro.params
 
@@ -11,6 +14,8 @@ if (!project_id) {
 }
 
 const project = await getProject(project_id as string)
+
+console.log(project)
 ---
 
 <Layout title={project.title}>
@@ -35,6 +40,14 @@ const project = await getProject(project_id as string)
     </header>
 
     <p class='flex items-center text-[1.2rem]'>{project.description}</p>
+
+    <section class="flex flex-wrap justify-between">
+      {project.tags.length > 0 && project.tags.map((tag: string) => (
+        <span class="flex px-4 py-1 border-2 rounded-full">{tag}</span>
+      ))}
+    </section>
+    
+
     <img
       src={project.image ??
         'http://localhost:8080/img/placeholders/project.jpg'}
@@ -50,8 +63,11 @@ const project = await getProject(project_id as string)
         </picture>
       ))}
     </section>
+
     <footer class="flex w-100 justify-start">
       <DeleteProject client:only id_project={project.id_project} id_creator={project.creator_id} />
+      <AddCollaboratorsLink client:only id_project={project.id_project} id_creator={project.creator_id} />
+      <AddTagsLink client:only id_project={project.id_project} id_creator={project.creator_id} />
     </footer>
   </main>
 </Layout>
