@@ -13,7 +13,14 @@ POST http://localhost:80/api/projects
     "description": "Project 1 description",
     "id_user_creator": 1
 }
+###
+POST http://localhost:8080/api/projects/edit/12
 
+{
+    "title": "POROTO",
+    "url": "apa",
+    "description": "Project 1 description"
+}
 ###
 
 PATCH http://localhost:8080/api/projects/3

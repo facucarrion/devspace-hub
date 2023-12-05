@@ -1,0 +1,19 @@
+---
+import EditProjectForm from "@comp/forms/EditProjectForm.svelte";
+import Layout from "@layout/RootLayout.astro";
+import { getProject } from "@lib/projects/getProject";
+
+const { project_id } = Astro.params
+
+if (!project_id) {
+  Astro.redirect('/')
+}
+
+const project = await getProject(project_id as string)
+---
+<Layout title="Edit Project">
+  <main class="flex flex-col justify-center flex-grow gap-4 w-full">
+    <h1 class="text-2xl font-bold">Edit Project</h1>
+    <EditProjectForm project={project} />
+  </main>
+</Layout>

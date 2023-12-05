@@ -59,21 +59,26 @@ class ProjectsController extends BaseController
 
     if (!$logo->isValid()) {
       $logo = NULL;
+    } else if (!str_contains($logo->getMimeType(), 'image')) {
+      return $this->fail('File is not an image', 400);
     } else {
-      $newLogoName = $logo->getRandomName();
-      $logoUploads = 'img/logos';
-      $logo->move($logoUploads, $newLogoName);
-      $logoUploadPath = base_url($logoUploads . '/' . $newLogoName);
-    }
+      $newlogoName = $logo->getRandomName();
+      $uploads = 'img/logos';
+      $logo->move($uploads, $newlogoName);
+      $uploadPath = base_url($uploads . '/' . $newlogoName);
+  }
 
     if (!$image->isValid()) {
       $image = NULL;
+    } else if (!str_contains($image->getMimeType(), 'image')) {
+      return $this->fail('File is not an image', 400);
     } else {
-      $newImageName = $image->getRandomName();
-      $imageUploads = 'img/project_images';
-      $image->move($imageUploads, $newImageName);
-      $imageUploadPath = base_url($imageUploads . '/' . $newImageName);
-    }
+      $newimageName = $image->getRandomName();
+      $uploads = 'img/images';
+      $image->move($uploads, $newimageName);
+      $uploadPath = base_url($uploads . '/' . $newimageName);
+  }
+
 
     $newProject = $this->projectsModel->insert([
       'title' => $title,
@@ -103,24 +108,76 @@ class ProjectsController extends BaseController
   }
 
   public function edit($id)
-  {
-    $project = $this->request->getJSON();
-    $projectToEdit = $this->projectsModel->find($id);
+  { 
+    $json = $this->request->getJSON();
 
-    if (!$projectToEdit) {
-      return $this->failNotFound('No project found with id ' . $id, 404);
-    }
 
-    $newProject = [
-      'title' => $project->title ?? $projectToEdit['title'],
-      'description' => $project->description ?? $projectToEdit['description'],
-      'id_user_creator' => $project->id_user_creator ?? $projectToEdit['id_user_creator']
+    $newData = [
+      'title' => $json->title,
+      'description' => $json->description,
+      'url' => $json->url,
     ];
 
-    $updatedProject = $this->projectsModel->update($id, $newProject);
+    $query = $this->projectsModel->update($id, $newData);
+    
+    if ($query) {
+      return $this->respondUpdated($this->projectsModel->find($id), 'Project updated!');
+    } else {
+      return $this->fail($this->projectsModel->errors(), 400);
+    }
+  }
 
-    if ($updatedProject) {
-      return $this->respondUpdated($project, 'Project updated!');
+  public function editimage($id)
+  {
+    $image = $this->request->getFile('image');
+
+    if (!$image->isValid()) {
+      $image = NULL;
+    } else if (!str_contains($image->getMimeType(), 'image')) {
+      return $this->fail('File is not an image', 400);
+    } else {
+      $newimageName = $image->getRandomName();
+      $uploads = 'img/images';
+      $image->move($uploads, $newimageName);
+      $uploadPath = base_url($uploads . '/' . $newimageName);
+    }
+
+    $newData = [
+      'image' => $uploadPath
+    ];
+
+    $query = $this->projectsModel->update($id, $newData);
+    
+    if ($query) {
+      return $this->respondUpdated($this->projectsModel->find($id), 'image updated!');
+    } else {
+      return $this->fail($this->projectsModel->errors(), 400);
+    }
+  }
+
+  public function editLogo($id)
+  {
+    $logo = $this->request->getFile('logo');
+
+    if (!$logo->isValid()) {
+      $logo = NULL;
+    } else if (!str_contains($logo->getMimeType(), 'image')) {
+      return $this->fail('File is not an image', 400);
+    } else {
+      $newlogoName = $logo->getRandomName();
+      $uploads = 'img/logos';
+      $logo->move($uploads, $newlogoName);
+      $uploadPath = base_url($uploads . '/' . $newlogoName);
+    }
+
+    $newData = [
+      'logo' => $uploadPath
+    ];
+
+    $query = $this->projectsModel->update($id, $newData);
+    
+    if ($query) {
+      return $this->respondUpdated($this->projectsModel->find($id), 'Logo updated!');
     } else {
       return $this->fail($this->projectsModel->errors(), 400);
     }
