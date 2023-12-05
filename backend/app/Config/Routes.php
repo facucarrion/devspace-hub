@@ -23,6 +23,8 @@ $routes->group('api', ['filter' => 'cors'], function ($routes) {
 
         $routes->get('random/(:num)', 'UsersController::getRandomUsers/$1');
         $routes->get('search', 'UsersController::searchUsers');
+
+        $routes->get('links/(:any)', 'UserLinksController::getByUsername/$1');
     });
 
     $routes->group('projects', function ($routes) {

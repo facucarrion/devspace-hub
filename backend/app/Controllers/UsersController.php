@@ -35,7 +35,7 @@ class UsersController extends BaseController
 
   public function getByUsername($username)
   {
-    $user = $this->usersModel->where('username', $username)->first();
+    $user = $this->usersModel->getByUsername($username);
 
     if ($user) {
       return $this->respond($user, 200);
