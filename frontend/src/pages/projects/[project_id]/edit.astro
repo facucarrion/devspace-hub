@@ -14,6 +14,6 @@ const project = await getProject(project_id as string)
 <Layout title="Edit Project">
   <main class="flex flex-col justify-center flex-grow gap-4 w-full">
     <h1 class="text-2xl font-bold">Edit Project</h1>
-    <EditProjectForm project={project} />
+    <EditProjectForm client:only project={project} />
   </main>
 </Layout>

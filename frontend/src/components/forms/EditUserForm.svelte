@@ -18,9 +18,9 @@
   })
 
 	const handleEditSubmit = async (event: SubmitEvent) => {
-		const form = event.target as HTMLFormElement;
+		const form = event.target as HTMLFormElement
 		
-		event.preventDefault();
+		event.preventDefault()
 
 		const formData = {
       username: form.username.value,
@@ -96,6 +96,7 @@
     value={user?.username}
 		required
 	/>
+
 	<input
 		type="email"
 		name="email" 
@@ -104,6 +105,7 @@
     value={user?.email}
 		required
 	/>
+  
   <input
 		type="text"
 		name="display_name" 
