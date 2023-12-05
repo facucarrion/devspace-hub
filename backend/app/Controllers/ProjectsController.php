@@ -66,7 +66,7 @@ class ProjectsController extends BaseController
       $uploads = 'img/logos';
       $logo->move($uploads, $newlogoName);
       $uploadPath = base_url($uploads . '/' . $newlogoName);
-  }
+    }
 
     if (!$image->isValid()) {
       $image = NULL;
@@ -77,7 +77,7 @@ class ProjectsController extends BaseController
       $uploads = 'img/images';
       $image->move($uploads, $newimageName);
       $uploadPath = base_url($uploads . '/' . $newimageName);
-  }
+    }
 
 
     $newProject = $this->projectsModel->insert([
@@ -108,9 +108,8 @@ class ProjectsController extends BaseController
   }
 
   public function edit($id)
-  { 
+  {
     $json = $this->request->getJSON();
-
 
     $newData = [
       'title' => $json->title,
@@ -119,37 +118,9 @@ class ProjectsController extends BaseController
     ];
 
     $query = $this->projectsModel->update($id, $newData);
-    
+
     if ($query) {
       return $this->respondUpdated($this->projectsModel->find($id), 'Project updated!');
-    } else {
-      return $this->fail($this->projectsModel->errors(), 400);
-    }
-  }
-
-  public function editimage($id)
-  {
-    $image = $this->request->getFile('image');
-
-    if (!$image->isValid()) {
-      $image = NULL;
-    } else if (!str_contains($image->getMimeType(), 'image')) {
-      return $this->fail('File is not an image', 400);
-    } else {
-      $newimageName = $image->getRandomName();
-      $uploads = 'img/images';
-      $image->move($uploads, $newimageName);
-      $uploadPath = base_url($uploads . '/' . $newimageName);
-    }
-
-    $newData = [
-      'image' => $uploadPath
-    ];
-
-    $query = $this->projectsModel->update($id, $newData);
-    
-    if ($query) {
-      return $this->respondUpdated($this->projectsModel->find($id), 'image updated!');
     } else {
       return $this->fail($this->projectsModel->errors(), 400);
     }
@@ -158,6 +129,8 @@ class ProjectsController extends BaseController
   public function editLogo($id)
   {
     $logo = $this->request->getFile('logo');
+
+    $uploadPath = NULL;
 
     if (!$logo->isValid()) {
       $logo = NULL;
@@ -175,9 +148,39 @@ class ProjectsController extends BaseController
     ];
 
     $query = $this->projectsModel->update($id, $newData);
-    
+
     if ($query) {
       return $this->respondUpdated($this->projectsModel->find($id), 'Logo updated!');
+    } else {
+      return $this->fail($this->projectsModel->errors(), 400);
+    }
+  }
+
+  public function editImage($id)
+  {
+    $image = $this->request->getFile('image');
+
+    $uploadPath = NULL;
+
+    if (!$image->isValid()) {
+      $image = NULL;
+    } else if (!str_contains($image->getMimeType(), 'image')) {
+      return $this->fail('File is not an image', 400);
+    } else {
+      $newimageName = $image->getRandomName();
+      $uploads = 'img/images';
+      $image->move($uploads, $newimageName);
+      $uploadPath = base_url($uploads . '/' . $newimageName);
+    }
+
+    $newData = [
+      'image' => $uploadPath
+    ];
+
+    $query = $this->projectsModel->update($id, $newData);
+
+    if ($query) {
+      return $this->respondUpdated($this->projectsModel->find($id), 'image updated!');
     } else {
       return $this->fail($this->projectsModel->errors(), 400);
     }
@@ -196,7 +199,6 @@ class ProjectsController extends BaseController
     $this->projectUsersModel->deleteProjectUsers($id);
     $this->projectTagsModel->deleteTagsProject($id);
 
-    return $this->respond(['aia']);
     $this->projectsModel->delete($id);
 
     return $this->respondDeleted($projectToDelete, 'Project deleted!');

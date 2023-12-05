@@ -31,10 +31,16 @@ PATCH http://localhost:8080/api/projects/3
 
 ###
 
-DELETE http://localhost:8080/api/projects/3
+DELETE http://localhost:8080/api/projects/10
 
 ###
-PATCH http://localhost:8080/api/projects/upvotes/15
+PATCH http://localhost:8080/api/projects/edit/6
+
+{
+    "title": "DevSpace Hub",
+    "url": "https://devspacehub.com",
+    "description": "Project 1 description"
+}
 
 ###
 GET http://localhost:8080/api/projects/search/w
