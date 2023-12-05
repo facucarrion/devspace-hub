@@ -58,20 +58,21 @@ class AuthController extends BaseController
 
     if (!$avatar->isValid()) {
       $avatar = NULL;
+    } else if (!str_contains($avatar->getMimeType(), 'image')) {
+      return $this->fail('File is not an image', 400);
     } else {
-      $check = getimagesize($avatar->getTempName());
-      if ($check === false) {
-        $avatar = NULL;
-      }
       $newAvatarName = $avatar->getRandomName();
       $uploads = 'img/avatars';
       $avatar->move($uploads, $newAvatarName);
       $uploadPath = base_url($uploads . '/' . $newAvatarName);
-      
     }
 
     if ($password !== $repeatPassword) {
       return $this->fail('Password confirmation does not match', 400);
+    }
+
+    if ($displayName == '') {
+      $displayName = NULL;
     }
 
     $hashedPassword = password_hash("$password", PASSWORD_BCRYPT);

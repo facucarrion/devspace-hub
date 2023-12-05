@@ -91,6 +91,8 @@ class UsersController extends BaseController
 
     if (!$avatar->isValid()) {
       $avatar = NULL;
+    } else if (!str_contains($avatar->getMimeType(), 'image')) {
+      return $this->fail('File is not an image', 400);
     } else {
       $newAvatarName = $avatar->getRandomName();
       $uploads = 'img/avatars';
