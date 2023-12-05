@@ -2,65 +2,67 @@
 
 namespace App\Controllers;
 
-use App\Models\UserLinksModel;
 use CodeIgniter\API\ResponseTrait as APIResponseTrait;
+use App\Models\UserLinksModel;
+use App\Models\UsersModel;
 
 class UserLinksController extends BaseController
 {
   use APIResponseTrait;
 
-  private $usersLinkModel;
+  private $userLinksModel;
+  private $usersModel;
 
   public function __construct()
   {
-    $this->usersLinkModel = new UserLinksModel();
+    $this->userLinksModel = new UserLinksModel();
+    $this->usersModel = new UsersModel();
   }
 
-  public function getAll()
+  public function getByUser($id)
   {
-    $usersLink = $this->usersLinkModel->findAll();
-    return $this->respond($usersLink, 200);
+    $userLinks = $this->userLinksModel->getByUser($id);
+    return $this->respond($userLinks, 200);
   }
 
-  public function getById($id)
+  public function getByUsername($username)
   {
-    $userLink = $this->usersLinkModel->find($id);
-
-    if ($userLink) {
-      return $this->respond($userLink, 200);
-    } else {
-      return $this->failNotFound('No userLink found with id ' . $id, 404);
+    if (!$this->usersModel->getByUsername($username)) {
+      return $this->failNotFound('User not found!');
     }
+
+    $userLinks = $this->userLinksModel->getByUsername($username);
+    return $this->respond($userLinks, 200);
   }
 
   public function create()
   {
     $userLink = $this->request->getJSON();
 
-    $insertedUserLink = $this->usersLinkModel->insert([
+    $insertedUserLink = $this->userLinksModel->insert([
       'id_user' => $userLink->id_user,
       'link' => $userLink->link
     ]);
 
     if ($insertedUserLink) {
-      return $this->respondCreated($this->usersLinkModel->find($insertedUserLink), 'UserLink created!');
+      return $this->respondCreated($this->userLinksModel->find($insertedUserLink), 'UserLink created!');
     } else {
-      return $this->fail($this->usersLinkModel->errors(), 400);
+      return $this->fail($this->userLinksModel->errors(), 400);
     }
   }
 
   public function delete($id)
   {
-    if ($this->usersLinkModel->delete($id)) {
+    if ($this->userLinksModel->delete($id)) {
       return $this->respondDeleted(['id_user_link' => $id], 'UserLink deleted!');
     } else {
-      return $this->fail($this->usersLinkModel->errors(), 400);
+      return $this->fail($this->userLinksModel->errors(), 400);
     }
   }
 
   public function getUserLinks($id)
   {
-    $userLinks = $this->usersLinkModel->getUserLinks($id);
+    $userLinks = $this->userLinksModel->getUserLinks($id);
     return $this->respond($userLinks, 200);
   }
 }

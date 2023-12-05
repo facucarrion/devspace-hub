@@ -18,8 +18,35 @@ class UserLinksModel extends Model
     'link'
   ];
 
-  public function getUserLinks($id)
+  public function getByUser($id)
   {
-    return $this->where('id_user',$id)->findAll();
+    $query = $this->db->query(
+      "SELECT link FROM user_links WHERE id_user = $id"
+    )->getResultArray();
+
+    $links = [];
+
+    foreach ($query as $link) {
+      array_push($links, $link['link']);
+    }
+
+    return $links;
+  }
+
+  public function getByUsername($username)
+  {
+    return $this->db->query(
+      "SELECT * FROM user_links
+      WHERE id_user = (
+        SELECT id_user FROM users WHERE username = '$username'
+      )"
+    )->getResultArray();
+  }
+
+  public function deleteByUser($id)
+  {
+    return $this->db->query(
+      "DELETE FROM user_links WHERE id_user = $id"
+    );
   }
 }

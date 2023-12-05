@@ -36,6 +36,13 @@ class UsersModel extends Model
     return $query->getResultArray();
   }
 
+  public function getByUsername($username)
+  {
+    return $this->db->query(
+      "SELECT * FROM users WHERE username = '$username'"
+    )->getResultArray()[0] ?? null;
+  }
+
   public function searchUsers($name)
   {
     return $this->db->query(
