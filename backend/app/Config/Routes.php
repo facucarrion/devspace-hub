@@ -46,6 +46,10 @@ $routes->group('api', ['filter' => 'cors'], function ($routes) {
         $routes->get('collab/(:num)', 'ProjectsController::getProjectsByCollaborator/$1');
         $routes->get('creator/(:num)', 'ProjectsController::getProjectsByCreator/$1');
         $routes->get('getCollab/(:num)', 'ProjectUsersController::getCollaborators/$1');
+
+        $routes->post('editLogo/(:num)', 'ProjectsController::editLogo/$1');
+        $routes->post('editImage/(:num)', 'ProjectsController::editImage/$1');
+        $routes->post('edit/(:num)', 'ProjectsController::edit/$1');
     });
 
     $routes->group('auth', function ($routes) {
