@@ -57,4 +57,17 @@ class ProjectLinksController extends BaseController
       return $this->fail($this->projectsLinkModel->errors(), 400);
     }
   }
+
+  public function getLinksByProjectId($id)
+  {
+    $links = $this->projectsLinkModel->getLinks($id);
+
+    return $this->respond($links);
+
+    if ($links) {
+      return $this->respond($links, 200);
+    } else {
+      return $this->failNotFound('No links found with id ' . $id, 404);
+    }
+  }
 }

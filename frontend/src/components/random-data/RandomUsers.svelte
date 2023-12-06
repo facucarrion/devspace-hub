@@ -3,7 +3,7 @@
 
   const usersPromise = getRandomUsers(
     5,
-    localStorage.getItem('user_id') as string
+    localStorage.getItem('user_id') as string ?? "0"
   ).then(res => res)
 </script>
 
