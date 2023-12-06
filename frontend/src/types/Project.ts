@@ -16,4 +16,6 @@ export interface Project {
     is_editor: string
   }[]
   links: string[]
+  tags: string[]
+  status?: number
 }

@@ -48,3 +48,10 @@ GET http://localhost:8080/api/projects/search/w
 ###
 GET http://localhost:8080/api/projects/getCollab/6
 
+###
+POST http://localhost:8080/api/projects/links
+
+{
+    "id_project": 6,
+    "link": "https://devspacehub.com"
+}

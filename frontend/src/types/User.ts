@@ -6,5 +6,6 @@ export interface User {
   email: string
   avatar: string
   created_at: string
+  links: string[]
   status?: number
 }

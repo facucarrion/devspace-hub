@@ -10,6 +10,7 @@ import { getFollowsCount } from '@lib/follows/getFollowsCount'
 import { getUserByUsername } from '@lib/users/getUser'
 import UserProjects from '@comp/data/UserProjects.svelte'
 import CollaboratorProjects from '@comp/data/CollaboratorProjects.svelte'
+import UserLinksLink from '@comp/ui/UserLinksLink.svelte'
 
 const { username } = Astro.params
 
@@ -44,9 +45,21 @@ if (user?.status === 404) {
       <FollowCount client:load counts={followCount} />
       <FollowButton client:only id_user={user.id_user} />
     </header>
-    
+
+    <ul class="mb-4 w-full [&>*]:text-zinc-300 [&>*]:underline">
+      {user.links.map((link: string) => (
+        <li>
+          🔗 <a href={link} target="_blank" rel="noopener noreferrer">{link}</a>
+        </li>
+      ))}
+    </ul>
+
     <RandomUsers client:only />
     <UserProjects user_id={user.id_user} client:only />
     <CollaboratorProjects user_id={user.id_user} client:only />
+
+    <footer class="flex w-full justify-start">
+      <UserLinksLink client:only id_user_page={user.id_user} username={user.username} />
+    </footer>
   </main>
 </Layout>
