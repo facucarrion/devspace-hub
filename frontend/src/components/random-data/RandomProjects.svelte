@@ -7,6 +7,9 @@
   ).then(res => res)
 </script>
 
+<h2 class="w-full mb-2 text-xl font-bold">
+  Proyectos Aleatorios
+</h2>
 <section class="flex flex-col w-full justify-between items-center h-48 gap-4">
   {#await projectsPromise then projects}
   {#each projects as project}

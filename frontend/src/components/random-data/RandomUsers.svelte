@@ -7,6 +7,9 @@
   ).then(res => res)
 </script>
 
+<h2 class="w-full mb-2 text-xl font-bold">
+  Usuarios Aleatorios
+</h2>
 <section class="flex w-full justify-between items-center h-44 mb-6">
   {#await usersPromise then users}
     {#each users as user}
