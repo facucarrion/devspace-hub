@@ -1,16 +1,8 @@
-import { isValidSession } from '@lib/auth/sessions/isValidSession'
 import { logOut } from '@lib/auth/logOut'
+import { getUser } from '@lib/users/getUser'
 
-if (
-  !location.href.startsWith('http://localhost:3000/auth') &&
-  !(await isValidSession())
-) {
+const user = await getUser(localStorage.getItem('user_id') ?? '0')
+
+if(user?.status == 404 && localStorage.getItem('user_id')) {
   logOut()
-}
-
-if (
-  location.href === 'http://localhost:3000/auth' &&
-  (await isValidSession())
-) {
-  location.href = 'http://localhost:3000'
 }
