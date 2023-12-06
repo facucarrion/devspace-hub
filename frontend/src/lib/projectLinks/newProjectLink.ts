@@ -4,6 +4,5 @@ export const newProjectLink = async (link: string, id_project: string) => {
     body: JSON.stringify({ link, id_project }),
   })
   const data = await response.json()
-  console.log(data)
   return data
 }
