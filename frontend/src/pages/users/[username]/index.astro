@@ -20,6 +20,8 @@ if (!username) {
 
 const user: User = await getUserByUsername(username as string)
 
+console.log(user)
+
 const followCount: {
   followers: number,
   followings: number

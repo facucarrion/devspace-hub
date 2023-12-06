@@ -40,9 +40,8 @@ class UsersController extends BaseController
   {
     $user = $this->usersModel->getByUsername($username);
 
-    $user['links'] = $this->userLinksModel->getByUser($user['id_user']);
-
     if ($user) {
+      $user['links'] = $this->userLinksModel->getByUser($user['id_user']);
       return $this->respond($user, 200);
     } else {
       return $this->failNotFound('No user found with username ' . $username, 404);
