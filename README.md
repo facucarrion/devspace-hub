@@ -42,6 +42,7 @@ _Ten en cuenta que el backend puede funcionar correctamente sin el frontend, per
 > FRONTEND
 
 - Astro
+- Svelte
 - Tailwind
 
 ---
