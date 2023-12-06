@@ -2,8 +2,18 @@
 import EditProjectForm from "@comp/forms/EditProjectForm.svelte";
 import Layout from "@layout/RootLayout.astro";
 import { getProject } from "@lib/projects/getProject";
+import { isEditor } from "@lib/projectUsers/isEditor";
 
-const { project_id } = Astro.params
+const { project_id } = Astro.params as { project_id: string }
+let is_editor = false
+
+$: {
+  isEditor(localStorage.getItem('user_id') as string, project_id).then(
+    res => {
+      is_editor = res.isEditor
+    }
+  )
+}
 
 if (!project_id) {
   Astro.redirect('/')
