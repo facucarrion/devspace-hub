@@ -1,0 +1,16 @@
+GET http://localhost:8080/api/user_links
+
+###
+
+GET  http://localhost:8080/api/user_links/10
+###
+
+POST http://localhost:8080/api/user_links
+
+{
+    "id_user": "15",
+    "link": "https://www.google.com/"
+}
+###
+
+DELETE http://localhost:8080/api/user_links/1

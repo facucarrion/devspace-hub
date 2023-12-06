@@ -1,15 +1,13 @@
 ---
+import Layout from '@layout/RootLayout.astro'
+import RandomUsers from '@comp/random-data/RandomUsers.svelte'
+import ProjectsList from '@comp/random-data/RandomProjects.svelte';
+import { getRandomProjects } from '@lib/projects/getRandomProjects';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title='Home'>
+  <main class="flex flex-col items-center w-full flex-grow">
+    <RandomUsers client:only />
+    <ProjectsList client:only />
+  </main>
+</Layout>

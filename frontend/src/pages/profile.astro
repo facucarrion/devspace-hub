@@ -1,0 +1,11 @@
+---
+import EditUserForm from "@comp/forms/EditUserForm.svelte";
+import UserLinksLink from "@comp/ui/UserLinksLink.svelte";
+import Layout from "@layout/RootLayout.astro";
+---
+
+<Layout title="Edit Profile">
+  <main class="flex flex-col justify-center flex-grow gap-4 w-full">
+    <EditUserForm client:only />
+  </main>
+</Layout>

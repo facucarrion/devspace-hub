@@ -1,0 +1,98 @@
+---
+import Layout from '@layout/RootLayout.astro'
+import { searchProjects } from '@lib/projects/searchProjects'
+import { searchUsers } from '@lib/users/searchUsers'
+import type { Project } from '../types/Project'
+import type { User } from '../types/User'
+import FollowButton from '@comp/ui/FollowButton.svelte'
+import UserName from '@comp/UserName.svelte'
+
+const url = Astro.url
+const search = url.searchParams.get('q') || ''
+
+const projects: Project[] = await searchProjects(search)
+const users: User[] = await searchUsers(search)
+---
+
+<Layout title='Search'>
+
+<form action="http://localhost:3000/search" method="get" class="flex w-full gap-4 mb-3">
+  <input 
+    type="text"
+    name="q" 
+    value={search} 
+    class="bg-transparent border-b-2 text-xl focus:outline-none flex-grow"
+    placeholder="Buscar proyectos y usuarios"
+  />
+
+  <button
+    type="submit"
+    class="flex h-full bg-blue-500 px-4 text-xl"
+  >🔎</button>
+</form>
+
+<main class="w-full flex flex-grow">
+  <section class="flex flex-col w-1/2 p-2 gap-2">
+    {search != '' && projects.map(project => (
+      <div
+        class="relative min-w-[150px] rounded-md flex items-center justify-between p-2 backdrop-blur-md bg-[#14141466]"
+      >
+        <picture class="h-20 w-20 rounded-full flex justify-center overflow-hidden">
+          <img
+            src={project.logo || 'http://localhost:8080/img/placeholders/project.jpg'}
+            alt={project.title}
+            class="h-full"
+          />
+        </picture>
+
+        <div class="flex flex-col">
+          <a href={`/projects/${project.id_project}`}>
+            <h3 class="text-lg text-white font-bold text-opacity-70">
+              {project.title}
+            </h3>
+          </a>
+          <span class="flex justify-end items-center gap-2">
+            <picture class="flex justify-center items-center w-5 h-5 overflow-hidden rounded-full">
+              <img class="h-full" src={project.creator_avatar ?? 'http://localhost:8080/img/placeholders/avatar.jpg'} alt={project.creator_username} />
+            </picture>
+            <a class="underline" href={`http://localhost:3000/users/${project.creator_username}`}>{project.creator_username}</a>
+          </span>
+        </div>
+        
+      </div>
+    ))}
+
+    {
+      projects.length == 0 
+        && <p class="w-full text-center text-xl">No se encontraron proyectos</p>
+    }
+  </section>
+
+  <section class="flex flex-col w-1/2 p-2 gap-2">
+    {search != '' && users.map(user => (
+      <a
+        href={`http://localhost:3000/users/${user.username}`}
+        class="relative min-w-[150px] rounded-md flex items-center justify-between p-2 gap-3 backdrop-blur-md bg-[#14141466]"
+      >
+        <div class="flex flex-1 items-center justify-between gap-4">
+          <picture class="h-20 w-20 rounded-full flex justify-center overflow-hidden">
+            <img
+              src={user.avatar || 'http://localhost:8080/img/placeholders/avatar.jpg'}
+              alt={user.username}
+              class="h-full"
+            />
+          </picture>
+
+          <UserName display_name={user.display_name} username={user.username} />
+        </div>
+      </a>
+    ))}
+
+    {
+      users.length == 0 
+        && <p class="w-full text-center text-xl">No se encontraron usuarios</p>
+    }
+  </section>
+</main>
+
+</Layout>

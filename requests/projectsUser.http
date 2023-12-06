@@ -1,0 +1,38 @@
+GET http://localhost:8080/api/projects-user
+
+###
+
+GET http://localhost:8080/api/projects-user/collab/15
+
+###
+GET http://localhost:8080/api/projects-user/3
+
+###
+
+POST http://localhost:8080/api/projects-user
+
+{
+    "id_project": "Project 1",
+    "id_user": "Project 1 description",
+    "is_editor": 1
+}
+
+###
+
+PATCH http://localhost:8080/api/projects-user/3
+
+{
+    "description": "Project 16 description updated"
+}
+
+###
+
+DELETE http://localhost:8080/api/projects-user/3
+
+###
+GET http://localhost:8080/api/project-users/getupvote
+
+{
+    "id_project": 19,
+    "id_user": 46
+}

@@ -1,0 +1,37 @@
+GET http://localhost:8080/api/users
+
+###
+
+GET http://localhost:8080/api/users/username/facucarrionnn
+
+###
+
+POST http://localhost:8080/api/users
+  
+{
+    "username": "lautidelacha",
+    "display_name": "Lautaro del Acha",
+    "email": "lautidelacha@gmail.com",
+    "password": "lautidelacha"
+}
+
+###
+
+PATCH http://localhost:8080/api/users/1
+
+{
+    "name": "",
+    "email": ""
+}
+
+###
+
+DELETE http://localhost:8080/api/users/3
+
+###
+
+GET http://localhost:8080/api/users/search/f
+
+###
+
+GET http://localhost:8080/api/users/links/facucarrionnn

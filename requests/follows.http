@@ -1,0 +1,26 @@
+GET http://localhost:8080/api/follows
+
+###
+
+GET http://localhost:8080/api/follows/1
+
+###
+
+POST http://localhost:8080/api/follows
+
+{
+    "id_user_follower": 4,
+    "id_user_followed": 1
+}
+
+###
+
+DELETE http://localhost:8080/api/follows/5
+
+###
+
+GET http://localhost:8080/api/follows/count/46
+
+###
+
+GET http://localhost:8080/api/follows/followers/46

@@ -1,0 +1,57 @@
+GET http://localhost:8080/api/projects/
+
+###
+GET http://localhost:8080/api/projects/5
+
+
+###
+
+POST http://localhost:80/api/projects
+
+{
+    "title": "Project 1",
+    "description": "Project 1 description",
+    "id_user_creator": 1
+}
+###
+POST http://localhost:8080/api/projects/edit/12
+
+{
+    "title": "POROTO",
+    "url": "apa",
+    "description": "Project 1 description"
+}
+###
+
+PATCH http://localhost:8080/api/projects/3
+
+{
+    "description": "Project 16 description updated"
+}
+
+###
+
+DELETE http://localhost:8080/api/projects/10
+
+###
+PATCH http://localhost:8080/api/projects/edit/6
+
+{
+    "title": "DevSpace Hub",
+    "url": "https://devspacehub.com",
+    "description": "Project 1 description"
+}
+
+###
+GET http://localhost:8080/api/projects/search/w
+
+###
+GET http://localhost:8080/api/projects/getCollab/6
+
+###
+POST http://localhost:8080/api/projects/links
+
+{
+    "id_project": 6,
+    "link": "https://devspacehub.com"
+}

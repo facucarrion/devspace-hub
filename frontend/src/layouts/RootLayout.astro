@@ -1,0 +1,63 @@
+---
+import Footer from '@comp/Footer.svelte';
+import Header from '@comp/ui/Header.astro';
+
+export interface Props {
+  title: string
+}
+
+const {
+  title
+} = Astro.props
+
+let isAuthPage = true
+
+if(Astro.url.pathname === '/auth') {
+  isAuthPage = false
+}
+
+---
+
+<!DOCTYPE html>
+<html lang="es" class="flex flex-col items-center w-full h-full">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{title} - DevSpace HUB</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg">
+</head>
+<body class="min-h-screen w-full flex flex-col items-center max-w-[800px] m-0">
+
+  {isAuthPage && <Header />}
+  <slot />
+  <Footer />
+
+  <script src="@lib/auth/sessions/handleSession" />
+</body>
+</html>
+
+<style>
+  * {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  body {
+    background: #252525;
+    color: #fff;
+    z-index: -1;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background: #ffe13433;
+    border-radius: 100%;
+    filter: blur(120px);
+    z-index: -1;
+  }
+</style>

@@ -1,0 +1,88 @@
+---
+import Layout from '@layout/RootLayout.astro'
+import { getProject } from '@lib/projects/getProject'
+import UpvoteButton from '@comp/ui/UpvoteButton.svelte'
+import DeleteProject from '@comp/ui/DeleteProject.svelte'
+import AddCollaboratorsLink from '@comp/ui/AddCollaboratorsLink.svelte'
+import AddTagsLink from '@comp/ui/AddTagsLink.svelte'
+import ProjectLinksLink from '@comp/ui/ProjectLinksLink.svelte'
+import type { Project } from '../../../types/Project'
+import EditProjectLink from '@comp/ui/EditProjectLink.svelte'
+
+
+const { project_id } = Astro.params
+
+if (!project_id) {
+  return Astro.redirect('/')
+}
+
+const project: Project = await getProject(project_id as string)
+
+if (!project.id_project) {
+  return Astro.redirect('/')
+}
+---
+
+<Layout title={project.title}>
+  <main class='flex flex-col w-full flex-grow gap-4'>
+    <header class='flex items-center justify-between w-full gap-4 py-4'>
+      <div class='flex items-center gap-4'>
+        <img
+          src={project.logo}
+          alt={project.title}
+          class='aspect-square h-24 rounded-full'
+        />
+        <div class="flex flex-col gap-2">
+          <h1 class='text-2xl font-bold'>{project.title}</h1>
+          <a class="underline" href={project.url}>{project.url}</a>  
+          <span class="flex items-center gap-2">
+            <img class="w-8 rounded-full" src={project.creator_avatar ?? 'http://localhost:8080/img/placeholders/avatar.jpg'} alt={project.creator_username} />
+            <a class="underline" href={`http://localhost:3000/users/${project.creator_username}`}>{project.creator_username}</a>
+          </span>
+        </div>
+      </div>
+      <UpvoteButton id_project={project.id_project} upvotes={project.upvotes} client:only />
+    </header>
+
+    <ul class="mb-4 w-full [&>*]:text-zinc-300 [&>*]:underline">
+      {project.links.map((link: string) => (
+        <li>
+          🔗 <a href={link} target="_blank" rel="noopener noreferrer">{link}</a>
+        </li>
+      ))}
+    </ul>
+
+    <p class='flex items-center text-[1.2rem]'>{project.description}</p>
+
+    <section class="flex flex-wrap justify-between">
+      {project.tags.length > 0 && project.tags.map((tag: string) => (
+        <span class="flex px-4 py-1 border-2 rounded-full">{tag}</span>
+      ))}
+    </section>
+    
+
+    <img
+      src={project.image ??
+        'http://localhost:8080/img/placeholders/project.jpg'}
+      alt={project.title}
+      class='border-2 border-gray-200 rounded-md'
+    />
+    
+    <section class="flex flex-wrap">
+      {project.collaborators.map((item: any) => (
+        <picture class="aspect-square h-12 w-12 rounded-full overflow-hidden">
+          <img class="h-full" src={item.avatar ?? 'http://localhost:8080/img/placeholders/avatar.jpg'} alt={item.username} title={item.username} />
+  
+        </picture>
+      ))}
+    </section>
+
+    <footer class="flex w-100 justify-start">
+      <DeleteProject client:only id_project={project.id_project} id_creator={project.creator_id} />
+      <AddCollaboratorsLink client:only id_project={project.id_project} id_creator={project.creator_id} />
+      <AddTagsLink client:only id_project={project.id_project} />
+      <EditProjectLink client:only id_project={project.id_project} />
+      <ProjectLinksLink client:only id_project={project.id_project} />
+    </footer>
+  </main>
+</Layout>

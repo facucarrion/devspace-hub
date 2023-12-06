@@ -1,0 +1,29 @@
+---
+import EditProjectForm from "@comp/forms/EditProjectForm.svelte";
+import Layout from "@layout/RootLayout.astro";
+import { getProject } from "@lib/projects/getProject";
+import { isEditor } from "@lib/projectUsers/isEditor";
+
+const { project_id } = Astro.params as { project_id: string }
+let is_editor = false
+
+$: {
+  isEditor(localStorage.getItem('user_id') as string, project_id).then(
+    res => {
+      is_editor = res.isEditor
+    }
+  )
+}
+
+if (!project_id) {
+  Astro.redirect('/')
+}
+
+const project = await getProject(project_id as string)
+---
+<Layout title="Edit Project">
+  <main class="flex flex-col justify-center flex-grow gap-4 w-full">
+    <h1 class="text-2xl font-bold">Edit Project</h1>
+    <EditProjectForm client:only project={project} />
+  </main>
+</Layout>

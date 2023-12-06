@@ -16,6 +16,8 @@ php spark serve
 # Backend iniciado en puerto 8080
 ```
 
+_Dentro de la carpeta /requests se encuentran archivos HTTP los cuales pueden utilizarse con la extensión **REST Client** para realizar peticiones a todos los endpoints de nuestra API._
+
 > FRONTEND
 ```sh
 cd frontend

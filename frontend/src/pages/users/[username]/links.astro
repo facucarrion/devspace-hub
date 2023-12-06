@@ -1,0 +1,30 @@
+---
+import type { User } from '../../../types/User'
+import Layout from '@layout/RootLayout.astro'
+import { getUserByUsername } from '@lib/users/getUser'
+import { getByUsername } from '@lib/userLinks/getByUsername'
+import EditLinks from '@comp/EditLinks.svelte'
+
+const { username } = Astro.params
+
+if (!username) {
+  Astro.redirect('/')
+}
+
+const user: User = await getUserByUsername(username as string)
+
+console.log(user)
+
+if (user?.status === 404) {
+  return Astro.redirect('/404?message=Usuario%20no%20encontrado')
+}
+
+const links = await getByUsername(user.username)
+---
+
+<Layout title={`${user.display_name ?? user.username} Links`}>
+  <h2 class='text-3xl mb-6 text-white w-full text-center font-bold'>Edit User Links</h2>
+  <main class='flex flex-col justify-center flex-grow gap-4 w-full'>
+    <EditLinks client:only links={links} id_user={user.id_user} />
+  </main>
+</Layout>
