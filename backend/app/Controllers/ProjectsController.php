@@ -65,7 +65,7 @@ class ProjectsController extends BaseController
       $newlogoName = $logo->getRandomName();
       $uploads = 'img/logos';
       $logo->move($uploads, $newlogoName);
-      $uploadPath = base_url($uploads . '/' . $newlogoName);
+      $logoUploadPath = base_url($uploads . '/' . $newlogoName);
     }
 
     if (!$image->isValid()) {
@@ -76,7 +76,7 @@ class ProjectsController extends BaseController
       $newimageName = $image->getRandomName();
       $uploads = 'img/images';
       $image->move($uploads, $newimageName);
-      $uploadPath = base_url($uploads . '/' . $newimageName);
+      $imageUploadPath = base_url($uploads . '/' . $newimageName);
     }
 
 
