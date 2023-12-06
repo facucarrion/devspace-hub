@@ -7,6 +7,7 @@ import AddCollaboratorsLink from '@comp/ui/AddCollaboratorsLink.svelte'
 import AddTagsLink from '@comp/ui/AddTagsLink.svelte'
 import ProjectLinksLink from '@comp/ui/ProjectLinksLink.svelte'
 import type { Project } from '../../../types/Project'
+import EditProjectLink from '@comp/ui/EditProjectLink.svelte'
 
 
 const { project_id } = Astro.params
@@ -80,6 +81,7 @@ if (!project.id_project) {
       <DeleteProject client:only id_project={project.id_project} id_creator={project.creator_id} />
       <AddCollaboratorsLink client:only id_project={project.id_project} id_creator={project.creator_id} />
       <AddTagsLink client:only id_project={project.id_project} />
+      <EditProjectLink client:only id_project={project.id_project} />
       <ProjectLinksLink client:only id_project={project.id_project} />
     </footer>
   </main>

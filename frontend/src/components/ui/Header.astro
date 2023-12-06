@@ -1,6 +1,7 @@
 ---
 import AvatarDropdown from "./AvatarDropdown.svelte";
 import LogOutButton from "./LogOutButton.svelte";
+import NewProjectLink from "./NewProjectLink.svelte";
 
 ---
 
@@ -13,12 +14,7 @@ import LogOutButton from "./LogOutButton.svelte";
     >
       🔎 Search
     </a>
-    <a
-      class='px-2 py-1 font-bold text-white bg-green-500 rounded-sm'
-      href='http://localhost:3000/projects/new'
-    >
-      + New Project
-    </a>
+    <NewProjectLink client:only />
     <LogOutButton client:only />
     <AvatarDropdown client:only />
   </span>
