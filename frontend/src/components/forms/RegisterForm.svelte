@@ -10,8 +10,6 @@
 
 		const response = await register(formData);
 
-		console.log(response)
-
 		if(response.registerData.status === 201) {
     	location.href = 'http://localhost:3000/'
   	} else {
