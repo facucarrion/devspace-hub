@@ -10,11 +10,13 @@
 
 		const response = await register(formData);
 
-		// if(response.registerData.status === 200) {
-    // 	location.href = 'http://localhost:3000/'
-  	// } else {
-    // 	location.href = 'http://localhost:3000/auth'
-  	// }
+		console.log(response)
+
+		if(response.registerData.status === 201) {
+    	location.href = 'http://localhost:3000/'
+  	} else {
+    	location.href = 'http://localhost:3000/auth'
+  	}
 	}
 </script>
 
