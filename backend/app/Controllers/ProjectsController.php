@@ -37,7 +37,7 @@ class ProjectsController extends BaseController
 
     if ($project) {
       $project['collaborators'] = $this->projectUsersModel->getCollaborators($id);
-      $project['links'] = $this->projectLinksModel->getLinks($id);
+      $project['links'] = $this->projectLinksModel->getLinksById($id);
       $project['tags'] = $this->projectTagsModel->getTagsByProject($id);
       return $this->respond($project, 200);
     } else {
@@ -212,7 +212,7 @@ class ProjectsController extends BaseController
 
     $projects = array_map(function ($project) {
       $project['collaborators'] = $this->projectUsersModel->getCollaborators($project['id_project'], 5);
-      $project['links'] = $this->projectLinksModel->getLinks($project['id_project']);
+      $project['links'] = $this->projectLinksModel->getLinksById($project['id_project']);
       return $project;
     }, $projects);
 
@@ -227,7 +227,7 @@ class ProjectsController extends BaseController
 
     $projects = array_map(function ($project) {
       $project['collaborators'] = $this->projectUsersModel->getCollaborators($project['id_project']);
-      $project['links'] = $this->projectLinksModel->getLinks($project['id_project']);
+      $project['links'] = $this->projectLinksModel->getLinksById($project['id_project']);
       return $project;
     }, $projects);
 
@@ -240,7 +240,7 @@ class ProjectsController extends BaseController
 
     $projects = array_map(function ($project) {
       $project['collaborators'] = $this->projectUsersModel->getCollaborators($project['id_project']);
-      $project['links'] = $this->projectLinksModel->getLinks($project['id_project']);
+      $project['links'] = $this->projectLinksModel->getLinksById($project['id_project']);
       return $project;
     }, $projects);
 

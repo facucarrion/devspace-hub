@@ -44,7 +44,7 @@ class ProjectsModel extends Model
         INNER JOIN project_users pu ON pu.id_user = u.id_user
 		    WHERE p.id_project = pu.id_project AND pu.id_rol = 2
       ) AND pu.id_project = $id"
-    )->getResultArray()[0];
+    )->getResultArray()[0] ?? null;
   }
 
   public function getProjectsByCreator($id_creator)

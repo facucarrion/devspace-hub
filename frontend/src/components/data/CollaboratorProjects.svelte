@@ -11,7 +11,7 @@
 
 <h2 class="text-2xl my-4 font-bold">COLLABORATING PROJECTS</h2>
 
-<section class="flex flex-col w-full justify-between items-center h-48 gap-4">  
+<section class="flex flex-col w-full justify-between items-center mb-8 gap-4">  
   {#await projectsPromise then projects}
   {#if projects.length == 0}
     <h1>No hay proyectos</h1>

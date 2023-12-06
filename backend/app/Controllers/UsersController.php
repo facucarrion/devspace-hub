@@ -2,18 +2,21 @@
 
 namespace App\Controllers;
 
-use App\Models\UsersModel;
 use CodeIgniter\API\ResponseTrait as APIResponseTrait;
+use App\Models\UsersModel;
+use App\Models\UserLinksModel;
 
 class UsersController extends BaseController
 {
   use ApiResponseTrait;
 
   private $usersModel;
+  private $userLinksModel;
 
   public function __construct()
   {
     $this->usersModel = new UsersModel();
+    $this->userLinksModel = new UserLinksModel();
   }
 
   public function getAll()
@@ -36,6 +39,8 @@ class UsersController extends BaseController
   public function getByUsername($username)
   {
     $user = $this->usersModel->getByUsername($username);
+
+    $user['links'] = $this->userLinksModel->getByUser($user['id_user']);
 
     if ($user) {
       return $this->respond($user, 200);

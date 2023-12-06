@@ -62,7 +62,7 @@ class UserLinksController extends BaseController
 
   public function getUserLinks($id)
   {
-    $userLinks = $this->userLinksModel->getUserLinks($id);
+    $userLinks = $this->userLinksModel->getByUsername($id);
     return $this->respond($userLinks, 200);
   }
 }

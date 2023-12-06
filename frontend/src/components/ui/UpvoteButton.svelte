@@ -4,7 +4,7 @@ import { isUpvoted } from "@lib/upvotes/isUpvoted"
 import { upvote } from "@lib/upvotes/upvote"
 
 export let id_project: string
-export let upvotes: number
+export let upvotes: string
 
 let upvoted: 'upvoted' | 'noUpvoted' = 'upvoted'
 

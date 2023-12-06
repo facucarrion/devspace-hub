@@ -24,7 +24,9 @@ $routes->group('api', ['filter' => 'cors'], function ($routes) {
         $routes->get('random/(:num)', 'UsersController::getRandomUsers/$1');
         $routes->get('search', 'UsersController::searchUsers');
 
-        $routes->get('links/(:any)', 'UserLinksController::getByUsername/$1');
+        $routes->get('links/(:any)', 'UserLinksController::getUserLinks/$1');
+        $routes->post('links', 'UserLinksController::create');
+        $routes->delete('links/(:num)', 'UserLinksController::delete/$1');
     });
 
     $routes->group('projects', function ($routes) {
@@ -34,11 +36,9 @@ $routes->group('api', ['filter' => 'cors'], function ($routes) {
         $routes->patch('(:num)', 'ProjectsController::edit/$1');
         $routes->delete('(:num)', 'ProjectsController::delete/$1');
 
-
         $routes->get('random/(:num)', 'ProjectsController::getRandomProjects/$1');
 
         $routes->get('search', 'ProjectsController::searchProjects');
-
         $routes->patch('collab', 'ProjectUsersController::collab');
         $routes->patch('editor', 'ProjectUsersController::collabEditor');
 
@@ -52,6 +52,10 @@ $routes->group('api', ['filter' => 'cors'], function ($routes) {
         $routes->patch('edit/(:num)', 'ProjectsController::edit/$1');
         $routes->post('editLogo/(:num)', 'ProjectsController::editLogo/$1');
         $routes->post('editImage/(:num)', 'ProjectsController::editImage/$1');
+
+        $routes->get('links/(:num)', 'ProjectLinksController::getLinksByProjectId/$1');
+        $routes->post('links', 'ProjectLinksController::create');
+        $routes->delete('links/(:num)', 'ProjectLinksController::delete/$1');
     });
 
     $routes->group('auth', function ($routes) {

@@ -1,18 +1,18 @@
 <script lang="ts">
-  import { deleteUserLink } from "@lib/userLinks/deleteUserLink"
-  import { newUserLink } from "@lib/userLinks/newUserLink";
+  import { deleteProjectLink } from "@lib/projectLinks/deleteProjectLink"
+  import { newProjectLink } from "@lib/projectLinks/newProjectLink"
 
   export let links: any[]
-  export let id_user: string
+  export let id_project: string
 
   const handleSubmit = async (event: SubmitEvent) => {
     const form = event.target as HTMLFormElement
 
     event.preventDefault()
 
-    const response = await newUserLink(
+    const response = await newProjectLink(
       form.link.value,
-      id_user
+      id_project
     )
 
     if(!response.status) {
@@ -23,7 +23,7 @@
   const handleDelete = async (id_link: string, event: MouseEvent) => {
     event.preventDefault()
 
-    const response = await deleteUserLink(id_link)
+    const response = await deleteProjectLink(id_link)
 
     if(!response.status) {
       location.reload()
@@ -50,7 +50,7 @@
     <li class="w-full flex gap-2">
       <p class="text-xl flex flex-grow">{link.link}</p>
       <a class="bg-white rounded-full px-2 py-1" href={link.link}>🔗</a>
-      <button class="bg-red-500 text-white rounded-full px-2 py-1" type="button" on:click={(event) => handleDelete(link.id_user_link, event)}>Delete</button>
+      <button class="bg-red-500 text-white rounded-full px-2 py-1" type="button" on:click={(event) => handleDelete(link.id_project_link, event)}>Delete</button>
     </li>
   {/each}
 </ul>

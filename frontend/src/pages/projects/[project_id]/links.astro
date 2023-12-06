@@ -1,0 +1,28 @@
+---
+import type { Project } from '../../../types/Project'
+import Layout from '@layout/RootLayout.astro'
+import { getProject } from '@lib/projects/getProject'
+import { getById } from "@lib/projectLinks/getById"
+import EditProjectLinks from '@comp/EditProjectLinks.svelte'
+
+const { project_id } = Astro.params
+
+if (!project_id) {
+  Astro.redirect('/')
+}
+
+const project: Project = await getProject(project_id as string)
+
+if (project?.status === 404) {
+  return Astro.redirect('/404?message=Proyecto%20no%20encontrado')
+}
+
+const links = await getById(project.id_project)
+---
+
+<Layout title={`${project.title} Links`}>
+  <h2 class='text-3xl mb-6 text-white w-full text-center font-bold'>Edit Project Links</h2>
+  <main class='flex flex-col justify-center flex-grow gap-4 w-full'>
+    <EditProjectLinks client:only links={links} id_project={project.id_project} />
+  </main>
+</Layout>

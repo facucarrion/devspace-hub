@@ -5,15 +5,21 @@ import UpvoteButton from '@comp/ui/UpvoteButton.svelte'
 import DeleteProject from '@comp/ui/DeleteProject.svelte'
 import AddCollaboratorsLink from '@comp/ui/AddCollaboratorsLink.svelte'
 import AddTagsLink from '@comp/ui/AddTagsLink.svelte'
+import ProjectLinksLink from '@comp/ui/ProjectLinksLink.svelte'
+import type { Project } from '../../../types/Project'
 
 
 const { project_id } = Astro.params
 
 if (!project_id) {
-  Astro.redirect('/')
+  return Astro.redirect('/')
 }
 
-const project = await getProject(project_id as string)
+const project: Project = await getProject(project_id as string)
+
+if (!project.id_project) {
+  return Astro.redirect('/')
+}
 ---
 
 <Layout title={project.title}>
@@ -36,6 +42,14 @@ const project = await getProject(project_id as string)
       </div>
       <UpvoteButton id_project={project.id_project} upvotes={project.upvotes} client:only />
     </header>
+
+    <ul class="mb-4 w-full [&>*]:text-zinc-300 [&>*]:underline">
+      {project.links.map((link: string) => (
+        <li>
+          🔗 <a href={link} target="_blank" rel="noopener noreferrer">{link}</a>
+        </li>
+      ))}
+    </ul>
 
     <p class='flex items-center text-[1.2rem]'>{project.description}</p>
 
@@ -66,6 +80,7 @@ const project = await getProject(project_id as string)
       <DeleteProject client:only id_project={project.id_project} id_creator={project.creator_id} />
       <AddCollaboratorsLink client:only id_project={project.id_project} id_creator={project.creator_id} />
       <AddTagsLink client:only id_project={project.id_project} />
+      <ProjectLinksLink client:only id_project={project.id_project} />
     </footer>
   </main>
 </Layout>
