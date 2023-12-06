@@ -84,8 +84,8 @@ class ProjectsController extends BaseController
       'title' => $title,
       'description' => $description,
       'url' => $url,
-      'image' => $uploadPath,
-      'logo' => $uploadPath,
+      'image' => $imageUploadPath,
+      'logo' => $logoUploadPath,
       'created_at' => date('Y-m-d H:i:s')
     ]);
     $newProjectUser = $this->projectUsersModel->insert([
