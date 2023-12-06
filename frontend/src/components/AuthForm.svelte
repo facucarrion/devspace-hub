@@ -1,7 +1,7 @@
 <script lang="ts">
-  import InvalidSession from "../ui/InvalidSession.svelte"
-  import LoginForm from "./LoginForm.svelte"
-  import RegisterForm from "./RegisterForm.svelte"
+  import InvalidSession from "./ui/InvalidSession.svelte"
+  import LoginForm from "./forms/LoginForm.svelte"
+  import RegisterForm from "./forms/RegisterForm.svelte"
 
   const Forms = {
     login: {
