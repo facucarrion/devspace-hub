@@ -4,7 +4,7 @@ DevSpace HUB es une espacio donde tanto tú como tu equipo pueden publicar sus p
 
 ## 🚀 Ejecución del Proyecto
 
-Según el servicio que se quiera ejecutar, los procedimientos son los siguientes.
+Según el servicio que se quiera ejecutar, los procedimientos son los siguientes;
 
 > BACKEND
 

@@ -56,6 +56,8 @@ $routes->group('api', ['filter' => 'cors'], function ($routes) {
         $routes->get('links/(:num)', 'ProjectLinksController::getLinksByProjectId/$1');
         $routes->post('links', 'ProjectLinksController::create');
         $routes->delete('links/(:num)', 'ProjectLinksController::delete/$1');
+
+        $routes->post('imagen', 'ProjectsController::probar_imagen');
     });
 
     $routes->group('auth', function ($routes) {

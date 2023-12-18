@@ -14,5 +14,5 @@
 </script>
 
 {#if is_editor}
-  <a href="http://localhost:3000/projects/{id_project}/edit" class="flex items-center  ml-2 bg-green-500 text-white text-xl px-2 py-1">Edit</a>
+  <a href="http://localhost:3000/projects/{id_project}/edit" class="flex items-center  ml-2 bg-green-500 text-white text-xl px-2 py-1">Edite</a>
 {/if}

@@ -35,6 +35,8 @@ class ProjectsController extends BaseController
   {
     $project = $this->projectsModel->getProject($id);
 
+    echo var_dump($project['image']);
+
     if ($project) {
       $project['collaborators'] = $this->projectUsersModel->getCollaborators($id);
       $project['links'] = $this->projectLinksModel->getLinksById($id);
@@ -62,10 +64,10 @@ class ProjectsController extends BaseController
     } else if (!str_contains($logo->getMimeType(), 'image')) {
       return $this->fail('File is not an image', 400);
     } else {
-      $newlogoName = $logo->getRandomName();
+      $newLogoName = $logo->getRandomName();
       $uploads = 'img/logos';
-      $logo->move($uploads, $newlogoName);
-      $logoUploadPath = base_url($uploads . '/' . $newlogoName);
+      $logo->move($uploads, $newLogoName);
+      $logoUploadPath = base_url($uploads . '/' . $newLogoName);
     }
 
     if (!$image->isValid()) {
@@ -267,5 +269,12 @@ class ProjectsController extends BaseController
     $projects = $this->projectsModel->getProjectsByTag($id);
 
     return $this->respond($projects);
+  }
+
+  public function probar_imagen()
+  {
+    $imagen = $this->request->getPost('admin');
+
+    echo print_r($imagen);
   }
 }

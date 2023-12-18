@@ -8,5 +8,5 @@
 </script>
 
 {#if isSameUser}
-  <a href="http://localhost:3000/users/{username}/links" class="bg-green-500 text-white text-xl px-2 py-1">Edit</a>
+  <a href="http://localhost:3000/users/{username}/links" class="bg-green-500 text-white text-xl px-2 py-1">Links</a>
 {/if}

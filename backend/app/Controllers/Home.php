@@ -6,6 +6,6 @@ class Home extends BaseController
 {
     public function index()
     {
-        return redirect()->to('http://localhost:3000');
+        return view('blablabla', ['rol' => 2]);
     }
 }
